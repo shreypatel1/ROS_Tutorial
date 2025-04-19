@@ -15,7 +15,7 @@ Each section will also have an associated autograder. At any point you want to t
 ```
 colcon build
 source install/setup.bash
-ros2 run onboarding test_topic_{topic_number}_{topic_subsection}
+ros2 run autograder test_topic_{topic_number}_{topic_subsection}
 ```
 For example, to run the tests for ```section 1.2```, you should run `ros2 run onboarding test_topic_1_2`
 
