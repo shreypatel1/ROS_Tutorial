@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'test_topic_1_1 = autograder.topic_1.question_1_1_grader:main',
             'test_topic_1_2 = autograder.topic_1.question_1_2_grader:main',
+            'test_topic_1_3 = autograder.topic_1.question_1_3_grader:main',
         ],
     },
 )

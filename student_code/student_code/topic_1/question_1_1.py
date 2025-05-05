@@ -15,8 +15,8 @@ class TutorialTopic_1_1:
         ## TODO: Q1.1.e Topic Echo
         self.string_message = None
 
-        # Enter your answer like this
-        self.num_nodes = 1
+        # Enter your answer like this (5 is not the right answer)
+        self.num_nodes = 5
 
         ### STUDENT CODE HERE
 
