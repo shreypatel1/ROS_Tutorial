@@ -11,12 +11,8 @@ def strip_student_code(path):
 
                 # Regex to remove everything between markers (non-greedy)
                 new_content = re.sub(
-                    r"# STUDENT CODE HERE
-
-        # END STUDENT CODE", 
-                    "# STUDENT CODE HERE
-
-        # END STUDENT CODE", 
+                    r"### STUDENT CODE HERE.*?\n### END STUDENT CODE", 
+                    "### STUDENT CODE HERE\n\n        ### END STUDENT CODE", 
                     content, 
                     flags=re.DOTALL
                 )
