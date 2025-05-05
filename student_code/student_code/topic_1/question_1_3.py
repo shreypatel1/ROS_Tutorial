@@ -1,3 +1,4 @@
+import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Int32
 
@@ -18,3 +19,8 @@ class TutorialTopic_1_3(Node):
 
         ### END STUDENT CODE
         pass
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = TutorialTopic_1_3()
+    rclpy.spin(node)

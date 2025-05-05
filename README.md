@@ -68,7 +68,7 @@ This subscriber should
 - Have its callback be `self.topic_callback`
 - Qos profile of 10
 
-HINT: There should be four parameters that you fill
+**HINT:** There should be four parameters that you fill
 
 #### 1.2.b Creating a publisher
 > **Publishers:** A publisher is a component of a node that allows the node to send information and data to a topic.
@@ -79,7 +79,7 @@ This publisher should
 - Publish to a topic `/tutorial/new_topic`
 - Qos profile of 10
 
-HINT: There should be three parameters that you fill
+**HINT:** There should be three parameters that you fill
 
 #### 1.2.c Message Data
 Please see what the String message type consists of: https://docs.ros.org/en/melodic/api/std_msgs/html/msg/String.html.
@@ -89,4 +89,7 @@ For this question, access the string field from the variable `msg` and store it 
 For this question, take the value from `topic_string_message` and append the string ` ROS` (don't forget the space). The new string should look like `Hello World! ROS`. Then use the variable `new_message` to publish this new string using the publisher from **Q1.1.b**.
 
 ### 1.3 Counter Node
-This question is designed to test your knowledge on this topic. Take a look at `question_1_3.py`. The goal of this node is to publish to a topic called `/tutorial/counter250` with numbers of type `Int32` starting from 0 incrementing to 250 inclusive. A rough outline has been provided for you. Fill in the blanks to complete this question.
+This question is designed to test your knowledge on this topic. Take a look at `question_1_3.py`. The goal of this node is to publish to a topic called `/tutorial/counter25` with numbers of type `Int32` starting from 0 incrementing to 25 inclusive. A rough outline has been provided for you. Fill in the blanks to complete this question.
+
+**HINT:** It may be useful to debug your node using `ros2 run student_code question_1_3` and `ros2 topic echo /tutorial/counter25`.
+
