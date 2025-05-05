@@ -4,7 +4,7 @@ from std_msgs.msg import String
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist 
 
-class TutorialTopic1Mock(Node):
+class TutorialTopic_1_1_Mock(Node):
     def __init__(self):
         super().__init__('mock_node_q1_1')
         self.pub1 = self.create_publisher(
@@ -36,6 +36,6 @@ class TutorialTopic1Mock(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    onboarding_topic_1_mock = TutorialTopic1Mock()
-    rclpy.spin(onboarding_topic_1_mock)
+    onboarding_topic_1_1_mock = TutorialTopic_1_1_Mock()
+    rclpy.spin(onboarding_topic_1_1_mock)
     rclpy.shutdown()

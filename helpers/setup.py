@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'node_q_1_1 = helpers.node_q_1_1:main'
+            'node_q_1_1 = helpers.node_q_1_1:main',
+            'node_q_1_2 = helpers.node_q_1_2:main'
         ],
     },
 )

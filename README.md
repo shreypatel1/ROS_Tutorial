@@ -17,7 +17,9 @@ colcon build
 source install/setup.bash
 ros2 run autograder test_topic_{topic_number}_{topic_subsection}
 ```
-For example, to run the tests for ```topic 1.2```, you should run `ros2 run autograder test_topic_1_2`
+For example, to run the tests for ```topic 1.2```, you should run `ros2 run autograder test_topic_1_2`. 
+
+**Note:** Make sure nothing is running in the background when running the autograder tests. Any background processes may mess up the autograder.
 
 **Note:** Building your code is super important for ensuring that your latest changes are reflected when you execute your code.
 
@@ -26,7 +28,7 @@ For example, to run the tests for ```topic 1.2```, you should run `ros2 run auto
 The goal of this section is to familiarize yourself with the concept of nodes and topics. We will be using ROS2 CLI (Command Line Interface) throughout this section.
 
 #### 1.1.a Nodes
-🟢 **Nodes:** A node in ROS2 represents a process that performs computation, such as sensing, control, planning, or actuation, and typically communicates with other nodes using the ROS2 communication framework. 
+> **Nodes:** A node in ROS2 represents a process that performs computation, such as sensing, control, planning, or actuation, and typically communicates with other nodes using the ROS2 communication framework. 
 
 First in your terminal, run `ros2 node list`. This will list all running nodes. You should currently have 0 running nodes. Now, in the terminal, run `ros2 run helpers node_q_1_1`. After you run the node, how many nodes are now running? Change the value of `num_nodes` (in ```question_1_1.py```) to the new number of nodes. 
 
@@ -38,9 +40,8 @@ match the name of the node. Here, `node_q_1_1` refers to the executable name, wh
 
 #### 1.1.c Topics
 
-🟢 **Topics:** A topic is a communication channel that allows for messages to be sent between nodes.
-
-🟢 **Messages**: A message is an object that contains information such as an image, a velocity, etc.
+> **Topics:** A topic is a communication channel that allows for messages to be sent between nodes.
+**Messages**: A message is an object that contains information such as an image, a velocity, etc.
 
 Stop the node. This can be done by going into the terminal where you ran the node and press `CTRL + c`. Once you have killed the node,
 run `ros2 topic list`. You should see two topics, namely `/parameter_events` and `/rosout`. These are system-generated topics and you do not have to worry about these topics for now. Again, run `ros2 run helpers node_q_1_1`. Change the value of `num_topics` to the new number of topics. 
@@ -53,3 +54,36 @@ When debugging, it sometimes important to check out what messages are being publ
 
 **Note:** do not include ```"data: "``` in your answer.
 
+### 1.2 Coding Subscriber and Publishers
+The goal of this section is to understand what a publisher and subscriber is within ROS2 and how to create them. Please look at file `question1_2.py`. You may run ```ros2 run helpers node_q_1_2.py``` to debug your answer.
+
+#### 1.2.a Creating a subscriber to a topic
+
+> **Subscribers/Subscription:** A subscriber is a component of a node that allows the node to receive information and data from a topic.
+
+For this question, fill in the blanks to create a subscriber.
+This subscriber should
+- Take in a message type `String`
+- Subscribe to the topic `/tutorial/basic_topic`
+- Have its callback be `self.topic_callback`
+- Qos profile of 10
+
+HINT: There should be four parameters that you fill
+
+#### 1.2.b Creating a publisher
+> **Publishers:** A publisher is a component of a node that allows the node to send information and data to a topic.
+
+For this question, fill in the blanks to create a publisher.
+This publisher should
+- Publish a message type `String`
+- Publish to a topic `/tutorial/new_topic`
+- Qos profile of 10
+
+HINT: There should be three parameters that you fill
+
+#### 1.2.c Message Data
+Please see what the String message type consists of: https://docs.ros.org/en/melodic/api/std_msgs/html/msg/String.html.
+For this question, access the string field from the variable `msg` and store it into the variable `self.topic_string_message`
+
+#### 1.2.d Publishing Data
+For this question, take the value from `topic_string_message` and append the string ` ROS` (don't forget the space). The new string should look like `Hello World! ROS`. Then use the variable `new_message` to publish this new string using the publisher from **Q1.1.b**.

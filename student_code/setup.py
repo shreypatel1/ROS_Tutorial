@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'question_1_2 = student_code.topic_1.question_1_2:main', 
         ],
     },
 )
