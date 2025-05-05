@@ -28,6 +28,3 @@ jobs:
           git add .
           git commit -m "Sync from private repo (answers removed)" || echo "Nothing to commit"
           git push origin main
-      
-      - name: Clean up existing public-repo directory
-        run: rm -rf public-repo
