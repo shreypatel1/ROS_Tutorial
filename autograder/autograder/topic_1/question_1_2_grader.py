@@ -27,7 +27,7 @@ def verify_q1_2_d(published_string: str):
     grader.verify_answer('Hello World! ROS', published_string, 'Q1.2.d Check Correct Published String')
 
 
-class OnboardingTopic1MockNode(Node):
+class TutorialTopic1MockNode(Node):
     def __init__(self):
         super().__init__('mock_node')
         self.basic_topic_pub = self.create_publisher(
@@ -55,13 +55,13 @@ class OnboardingTopic1MockNode(Node):
         self.basic_topic_pub.publish(msg)
 
 
-class OnboardingTopic1TestNode(Node):
+class TutorialTopic1TestNode(Node):
     def __init__(self):
         super().__init__('topic1_test_node')
-        self.student_node = question_1_2.TutorialTopic1_2()
+        self.student_node = question_1_2.TutorialTopic_1_2()
         verify_q1_2_a(self.student_node.basic_topic_subscription)
         verify_q1_2_b(self.student_node.new_topic_publisher)
-        self.mock_node = OnboardingTopic1MockNode()
+        self.mock_node = TutorialTopic1MockNode()
         rclpy.spin_once(self.mock_node)
         rclpy.spin_once(self.student_node)
         rclpy.spin_once(self.mock_node)
@@ -71,5 +71,5 @@ class OnboardingTopic1TestNode(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    OnboardingTopic1TestNode()
+    TutorialTopic1TestNode()
     rclpy.shutdown()

@@ -3,9 +3,9 @@ from rclpy.node import Node
 from std_msgs.msg import String
 
 
-class TutorialTopic1_2(Node):
+class TutorialTopic_1_2(Node):
     def __init__(self):
-        super().__init__('onboarding_node_q1_2')
+        super().__init__('tutorial_node_q_1_2')
 
         ## TODO: Q1.2.a Creating a subscriber to a topic
         self.basic_topic_subscription = self.create_subscription(
@@ -38,5 +38,5 @@ class TutorialTopic1_2(Node):
     
 def main(args=None):
     rclpy.init(args=args)
-    node = TutorialTopic1_2()
+    node = TutorialTopic_1_2()
     rclpy.spin(node)
