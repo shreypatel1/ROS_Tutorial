@@ -26,6 +26,8 @@ For example, to run the tests for ```topic 1.2```, you should run `ros2 run auto
 The goal of this section is to familiarize yourself with the concept of nodes and topics. We will be using ROS2 CLI (Command Line Interface) throughout this section.
 
 #### 1.1.a Nodes
+🟢 **Nodes:** A node in ROS2 represents a process that performs computation, such as sensing, control, planning, or actuation, and typically communicates with other nodes using the ROS2 communication framework. 
+
 First in your terminal, run `ros2 node list`. This will list all running nodes. You should currently have 0 running nodes. Now, in the terminal, run `ros2 run helpers node_q_1_1`. After you run the node, how many nodes are now running? Change the value of `num_nodes` (in ```question_1_1.py```) to the new number of nodes. 
 
 #### 1.1.b Node Names
@@ -35,6 +37,11 @@ Change the value of `first_node_name` to the name of the first node. Make sure y
 match the name of the node. Here, `node_q_1_1` refers to the executable name, which is defined in `setup.py`.
 
 #### 1.1.c Topics
+
+🟢 **Topics:** A topic is a communication channel that allows for messages to be sent between nodes.
+
+🟢 **Messages**: A message is an object that contains information such as an image, a velocity, etc.
+
 Stop the node. This can be done by going into the terminal where you ran the node and press `CTRL + c`. Once you have killed the node,
 run `ros2 topic list`. You should see two topics, namely `/parameter_events` and `/rosout`. These are system-generated topics and you do not have to worry about these topics for now. Again, run `ros2 run helpers node_q_1_1`. Change the value of `num_topics` to the new number of topics. 
 
