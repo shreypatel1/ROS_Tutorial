@@ -93,3 +93,17 @@ This question is designed to test your knowledge on this topic. Take a look at `
 
 **HINT:** It may be useful to debug your node using `ros2 run student_code question_1_3` and `ros2 topic echo /tutorial/counter25`.
 
+## Topic 2: Coordinate Conventions
+
+## Topic 3: TF Transformations
+
+## Topic 4: Simulation + Useful Tools
+
+## Topic 5: Localization
+
+## Topic 6: Perception 
+
+## Topic 7: Control
+
+## Topic 8: Autonomy
+

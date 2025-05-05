@@ -1,4 +1,4 @@
-class OnboardingTopic2_1:
+class TutorialTopic_2_1:
     def __init__(self):
         ## TODO: Q2.1.a x coordinate
         self.position_x_enu = None
@@ -8,3 +8,7 @@ class OnboardingTopic2_1:
 
         ## TODO: Q2.1.c z coordinate
         self.position_z_enu = None
+
+        ### STUDENT CODE HERE
+
+        ### END STUDENT CODE
