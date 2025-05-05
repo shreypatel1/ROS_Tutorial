@@ -32,9 +32,9 @@ class TutorialTopic_1_2(Node):
 
         # TODO: Q1.2.d Publishing Data  
         new_message = String()
-        # STUDENT CODE HERE
+        ### STUDENT CODE HERE
 
-        # END STUDENT CODE
+        ### END STUDENT CODE
     
 def main(args=None):
     rclpy.init(args=args)

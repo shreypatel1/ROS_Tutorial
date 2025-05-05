@@ -14,3 +14,10 @@ class TutorialTopic_1_1:
 
         ## TODO: Q1.1.e Topic Echo
         self.string_message = None
+
+        # Enter your answer like this
+        self.num_nodes = 1
+
+        ### STUDENT CODE HERE
+
+        ### END STUDENT CODE
