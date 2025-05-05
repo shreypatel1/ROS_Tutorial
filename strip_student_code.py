@@ -1,5 +1,4 @@
 import os
-import re
 
 def strip_student_code(base_dir):
     for root, dirs, files in os.walk(base_dir):
@@ -13,9 +12,10 @@ def strip_student_code(base_dir):
                 skip = False
                 for line in lines:
                     if "STUDENT CODE HERE" in line:
+
                     if "END STUDENT CODE" in line:
                         skip = False
-                        new_lines.append(line.rstrip() + "\n")  # Keep the marker
+                        new_lines.append(line.rstrip() + "\n")
                         continue
                     if not skip:
                         new_lines.append(line)
