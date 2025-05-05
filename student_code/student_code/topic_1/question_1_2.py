@@ -11,14 +11,14 @@ class TutorialTopic_1_2(Node):
         self.basic_topic_subscription = self.create_subscription(
             ### STUDENT CODE HERE
 
-            ### END STUDENT CODE
+        # END STUDENT CODE
         )
         
         # TODO: Q1.2.b Creating Publisher
         self.new_topic_publisher = self.create_publisher(
             ### STUDENT CODE HERE
 
-            ### END STUDENT CODE
+        # END STUDENT CODE
         )
         self.topic_string_message = None
 
@@ -28,7 +28,7 @@ class TutorialTopic_1_2(Node):
         self.topic_string_message = None
         ### STUDENT CODE HERE
 
-        ### END STUDENT CODE
+        # END STUDENT CODE
 
         # TODO: Q1.2.d Publishing Data  
         new_message = String()
