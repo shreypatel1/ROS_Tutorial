@@ -8,6 +8,27 @@ In this repo, you will learn the basics of ROS2 and robotics fundamentals. The g
 - Access to your MRG Cluster Virtual Machine
 - Basics of Navigating Linux
 
+## Environment Setup (WIP)
+### MRG Cluster
+If you have access to the MRG Cluster, you can entire your enivornment through ssh. You will need your `user_id`, `password`, `cluster_ip`. To access, open a terminal and run:
+
+```
+ssh <user_id>@<cluster_ip>
+```
+
+### Personal Computer 
+This will only work on Ubuntu. To setup your environment (one time step), run:
+
+```
+curl -v https://raw.githubusercontent.com/Jeff300fang/MRG_Docker/tutorial/mrg_tutorial_startup.sh | bash
+```
+
+Then to start, type
+
+```
+start_tutorial_docker
+```
+
 ## Topic 0: Building + Testing
 Each topic will give a rough description of the task and there will be an associated file in ```ROS_Tutorial/student_code/student_code/topic_{topic #}/question_{topic #}_{section #}.py```. So for example, if you were working on ```Topic 1.2```, you would be accessing the file ```ROS_Tutorial/student_code/student_code/topic_1/question_1_2.py```
 
