@@ -114,11 +114,31 @@ This question is designed to test your knowledge on this topic. Take a look at `
 
 **HINT:** It may be useful to debug your node using `ros2 run student_code question_1_3` and `ros2 topic echo /tutorial/counter25`.
 
-## Topic 2: Coordinate Conventions
+### 1.4 Services
 
-## Topic 3: TF Transformations
+> **Services** are another type of communication mechanism. It consists of a **client** that sends a request to a **service**, which then returns a response. 
+Some examples of where services may be used are:
+> - Querying information
+> - Setting parameters
+> - Simple one time calculations
+> 
+> For example, I may have a client that requests the position of a buoy from a mapping service.
 
-## Topic 4: Simulation + Useful Tools
+In this question, you will be coding exactly the scenario described above. The relevant files you will be editing are `question_1_4_client.py` and `question_1_4_service.py` in `student_code` and `GetBuoyLocation.srv` in `tutorial_msgs/srv`.
+
+#### 1.4.a Creating a Custom Message
+Services require a custom message to work. Take a look at `tutorial_msgs/srv/GetBuoyLocation.srv`. You'll notice that there are two fields in this message seperated by a `---`. The first field represents the request data the client sends to the service. The second field represents the response data that the service sends back to the client.
+
+For this message, we want the request to be a variable of type `string` with the name `buoy_name`. For the response, we want two variables, both of type `int32`. The first one called `x_pos` and the second one called `y_pos`. Fill out the blanks in the provided file.
+
+**HINT:** Take a look at `TemplateServiceMessage.srv` to see a template service message.
+
+
+## Topic 2: Simulation + Useful Tools
+
+## Topic 3: Coordinate Conventions
+
+## Topic 4: TF Transformations
 
 ## Topic 5: Localization
 

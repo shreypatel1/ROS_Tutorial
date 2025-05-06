@@ -1,0 +1,6 @@
+# Request
+int32 id
+bool square_like
+---
+# Response
+geometry_msg/Pose pose
