@@ -23,7 +23,7 @@ This will only work on Ubuntu. To setup your environment (one time step), run:
 curl -v https://raw.githubusercontent.com/Jeff300fang/MRG_Docker/tutorial/mrg_tutorial_startup.sh | bash
 ```
 
-Then to start, type
+Reboot your machine. Then to start, type
 
 ```
 start_tutorial_docker
