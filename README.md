@@ -8,7 +8,7 @@ In this repo, you will learn the basics of ROS2 and robotics fundamentals. The g
 - Access to your MRG Cluster Virtual Machine
 - Basics of Navigating Linux
 
-## Environment Setup (WIP)
+## Environment Setup ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 ### MRG Cluster
 If you have access to the MRG Cluster, you can entire your enivornment through ssh. You will need your `user_id`, `password`, `cluster_ip`. To access, open a terminal and run:
 
