@@ -129,9 +129,17 @@ In this question, you will be coding exactly the scenario described above. The r
 #### 1.4.a Creating a Custom Message
 Services require a custom message to work. Take a look at `tutorial_msgs/srv/GetBuoyLocation.srv`. You'll notice that there are two fields in this message seperated by a `---`. The first field represents the request data the client sends to the service. The second field represents the response data that the service sends back to the client.
 
-For this message, we want the request to be a variable of type `string` with the name `buoy_name`. For the response, we want two variables, both of type `int32`. The first one called `x_pos` and the second one called `y_pos`. Fill out the blanks in the provided file.
+For this message, we want the request to be a variable of type `string` with the name `buoy_name`. For the response, we want three variables, two of type `int32` and one of type `bool`. The first `int32` should be called `x_pos` and the second one called `y_pos`. The `bool` should be called `found`, Fill out the blanks in the provided file.
 
 **HINT:** Take a look at `TemplateServiceMessage.srv` to see a template service message.
+
+#### 1.4.b Creating a Serivce
+
+Create the service. This should use the `GetBuoyLocation` service message, use the service topic `/tutorial/get_buoy_location`, and have its handler be `self.handle_get_buoy_location`.
+
+#### 1.4.c Handling a request from a Client
+
+Go to the file `question_1_4_service.py`. Complete the `handle_get_buoy_location` function. An example of how to access the request component of the service is provided for you. Following this example, fill out the response. If the requested buoy is not in the map, set the `found` parameter to `False`, else if found set the parameter to `True`.
 
 
 ## Topic 2: Simulation + Useful Tools
