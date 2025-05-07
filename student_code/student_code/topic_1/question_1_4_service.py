@@ -45,3 +45,8 @@ class TutorialTopic_1_4_Service(Node):
 
         ### END STUDENT CODE
         return response
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = TutorialTopic_1_4_Service()
+    rclpy.spin(node)

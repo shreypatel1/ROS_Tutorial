@@ -33,13 +33,10 @@ class Question1_3_Grader(Node):
         else:
             self.expected += 1
 
-    
     def timeout_callback(self):
         if time.time() - self.last_message_time > 1 or not self.not_failed:
             grader.verify_answer(True, self.not_failed and self.passed, 'Q1.3 Counter Node')
-            self.get_logger().info("Test finished. Press CTRL + c to exit")
-            self.destroy_node()
-
+            rclpy.shutdown()
 
 def main(args=None):
     rclpy.init(args=args)
@@ -49,4 +46,3 @@ def main(args=None):
     executor.add_node(grader_node)
     executor.add_node(student_node)
     executor.spin()
-    rclpy.shutdown()
