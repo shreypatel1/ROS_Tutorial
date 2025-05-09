@@ -17,7 +17,9 @@ ssh <user_id>@<cluster_ip>
 ```
 
 ### Personal Computer 
-This will only work on Ubuntu. To setup your environment (one time step), run:
+
+#### Ubuntu
+To setup your environment (one time step), run:
 
 ```
 curl -v https://raw.githubusercontent.com/Jeff300fang/MRG_Docker/tutorial/mrg_tutorial_startup.sh | bash
@@ -28,6 +30,8 @@ Reboot your machine. Then to start, type
 ```
 start_tutorial_docker
 ```
+
+#### Windows
 
 ## Topic 0: Building + Testing
 Each topic will give a rough description of the task and there will be an associated file in ```ROS_Tutorial/student_code/student_code/topic_{topic #}/question_{topic #}_{section #}.py```. So for example, if you were working on ```Topic 1.2```, you would be accessing the file ```ROS_Tutorial/student_code/student_code/topic_1/question_1_2.py```
@@ -45,7 +49,9 @@ For example, to run the tests for ```topic 1.2```, you should run `ros2 run auto
 **Note:** Building your code is super important for ensuring that your latest changes are reflected when you execute your code.
 
 ## Topic 1: ROS2 Basics
-### 1.1 Understanding Nodes and Topics
+<details>
+<summary><strong>1.1 Understanding Nodes and Topics</strong></summary>
+
 The goal of this section is to familiarize yourself with the concept of nodes and topics. We will be using ROS2 CLI (Command Line Interface) throughout this section.
 
 #### 1.1.a Nodes
@@ -74,8 +80,11 @@ Sometimes you may want to find information about a topic. You can use `ros2 topi
 When debugging, it sometimes important to check out what messages are being published to a topic. A useful command for this is `ros2 topic echo TOPIC_NAME`. Change the value of `string_message` to the string that is being published to the topic `/tutorial/StringPub`. 
 
 **Note:** do not include ```"data: "``` in your answer.
+</details>
 
-### 1.2 Coding Subscriber and Publishers
+<details>
+<summary><strong>1.2 Coding Subscriber and Publishers</strong></summary>
+
 The goal of this section is to understand what a publisher and subscriber is within ROS2 and how to create them. Please look at file `question1_2.py`. You may run ```ros2 run helpers node_q_1_2.py``` to debug your answer.
 
 #### 1.2.a Creating a subscriber to a topic
@@ -109,12 +118,18 @@ For this question, access the string field from the variable `msg` and store it 
 #### 1.2.d Publishing Data
 For this question, take the value from `topic_string_message` and append the string ` ROS` (don't forget the space). The new string should look like `Hello World! ROS`. Then use the variable `new_message` to publish this new string using the publisher from **Q1.1.b**.
 
-### 1.3 Counter Node
+</details>
+
+<details>
+<summary><strong>1.3 Counter Node</strong></summary>
+
 This question is designed to test your knowledge on this topic. Take a look at `question_1_3.py`. The goal of this node is to publish to a topic called `/tutorial/counter25` with numbers of type `Int32` starting from 0 incrementing to 25 inclusive. A rough outline has been provided for you. Fill in the blanks to complete this question.
 
 **HINT:** It may be useful to debug your node using `ros2 run student_code question_1_3` and `ros2 topic echo /tutorial/counter25`.
+</details>
 
-### 1.4 Services
+<details>
+<summary><strong>1.4 Services</strong></summary>
 
 > **Services** are another type of communication mechanism. It consists of a **client** that sends a request to a **service**, which then returns a response. 
 Some examples of where services may be used are:
@@ -144,6 +159,7 @@ Go to the file `question_1_4_service.py`. Complete the `handle_get_buoy_location
 #### 1.4.d Sending a request to a Service
 
 Go to the file `question_1_4_client.py`. Correctly request a `yellow_buoy` from the service. 
+</details>
 
 ## Topic 2: Simulation + Useful Tools
 
