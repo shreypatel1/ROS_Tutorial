@@ -163,17 +163,6 @@ Go to the file `question_1_4_client.py`. Correctly request a `yellow_buoy` from 
 
 ## Topic 2: Simulation + Useful Tools
 
-<details>
-<summary><strong>2.1 Running Simulation</strong></summary>
-
-#### 2.1.a Accessing VNC
-
-To access your VNC, go into your web browser and go to the site `localhost:6080`. You should see something like:
-
-<img src="assets/vnc_weblanding.png" alt="VNC Web Landing" width="800"/>
-
-</details>
-
 ## Topic 3: Coordinate Conventions
 
 ## Topic 4: TF Transformations
