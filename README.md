@@ -8,6 +8,23 @@ In this repo, you will learn the basics of ROS2 and robotics fundamentals. The g
 - Access to your MRG Cluster Virtual Machine
 - Basics of Navigating Linux
 
+## Repo Setup
+
+For this tutorial, you will need to fork two repositories [ROS_Tutorial](https://github.com/gt-marine-robotics-group/ROS_Tutorial) and [stinger-software](https://github.com/gt-marine-robotics-group/stinger-software). We will show how to fork the `stinger-software` repo which will be the same steps for the `ROS_Tutorial` repo. First go to the repo.
+
+<img src="assets/stinger_software_git_landing.png" alt="git landing" width="800"/>
+
+Then click fork.
+
+<img src="assets/stinger_software_fork_box.png" alt="git fork box" width="800"/>
+
+If prompted, name the repository `stinger-software` (or whatever the original repository was called). Make sure the select owner is under your github username.
+
+<img src="assets/stinger_software_fork_page.png" alt="git fork page" width="800"/>
+
+Then click `Create Fork`. Repeat this process for the `ROS_Tutorial` repo as well.
+
+
 ## Environment Setup ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 ### MRG Cluster
 If you have access to the MRG Cluster, you can entire your enivornment through ssh. You will need your `user_id`, `password`, `cluster_ip`. To access, open a terminal and run:
@@ -25,10 +42,18 @@ To setup your environment (one time step), run:
 curl -v https://raw.githubusercontent.com/Jeff300fang/MRG_Docker/tutorial/mrg_tutorial_startup.sh | bash
 ```
 
+You will be prompted to enter your github username. Please enter the github username 
+
 Reboot your machine. Then to start, type
 
 ```
 start_tutorial_docker
+```
+
+Once inside the docker container, type:
+
+```
+tmuxp load /root/.tmuxp/tmuxp_config.yaml
 ```
 
 #### Windows
@@ -163,6 +188,8 @@ Go to the file `question_1_4_client.py`. Correctly request a `yellow_buoy` from 
 
 ## Topic 2: Simulation + Useful Tools
 
+**Note:** There are no tests for this section.
+
 <details>
 <summary><strong>2.1 Using VNC</strong></summary>
 
@@ -212,7 +239,7 @@ Select the dropdown.
 
 <img src="assets/rqt_image_view_dropdown.png" alt="Dropdown rqt_image_view" width="800"/>
 
-**NOTE:** If nothing pops up in the dropdown, click the refresh button right next to the dropdown a couple of times and try again.
+**Note:** If nothing pops up in the dropdown, click the refresh button right next to the dropdown a couple of times and try again.
 
 Then select the camera topic you want to visualize. In our case, select `/stinger/camera_0/image_raw`. You should see something like the following.
 
@@ -253,15 +280,15 @@ Now you should be able to see these red squares. We will learn more about what a
 
 </details>
 
-## Topic 3: Coordinate Conventions
+## Topic 3: Coordinate Conventions ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
-## Topic 4: TF Transformations
+## Topic 4: TF Transformations ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
-## Topic 5: Localization
+## Topic 5: Localization ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
-## Topic 6: Perception 
+## Topic 6: Perception ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
-## Topic 7: Control
+## Topic 7: Control ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
-## Topic 8: Autonomy
+## Topic 8: Autonomy ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
