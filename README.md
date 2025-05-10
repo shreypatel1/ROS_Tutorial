@@ -187,13 +187,69 @@ If you zoom out, you should be able to see a stinger tug model.
 
 <img src="assets/sim_stinger_tug.png" alt="Sim stinger tug" width="800"/>
 
-Later in this tutorial, you will be developing different algorithms for perception, control, and autonomy. You may want to test these out in different environments. To do so, you can run the sim launch command with the `world:=` parameter. For example, if I wanted to run a different world called `secondary.world`. I would run the following
+Later in this tutorial, you will be developing different algorithms for perception, control, and autonomy. You may want to test these out in different environments. To do so, you can run the sim launch command with the `world:=` parameter. For example, if you wanted to run a different world called `secondary.world`, you would run the following
 
 ```
 ros2 launch stinger_bringup vehicle_sim.launch.py world:=secondary.world
 ```
 
-Take a look at `stinger-software/stinger_sim/worlds`. These are all the available worlds for you.
+All of the available worlds can be found in `stinger-software/stinger_sim/worlds`.
+
+</details>
+
+<details>
+<summary><strong>2.3 Visualization Tools: rqt_image_view</strong></summary>
+
+> **rqt_image_view** is a tool used to see images being published over topics.
+
+First start the simulation `ros2 launch stinger_bringup vehicle_sim.launch.py`.
+
+Then, in a separate terminal, run `ros2 run rqt_image_view rqt_image_view`. You should see something like this:
+
+<img src="assets/rqt_image_view_opened.png" alt="Opened rqt_image_view" width="800"/>
+
+Select the dropdown.
+
+<img src="assets/rqt_image_view_dropdown.png" alt="Dropdown rqt_image_view" width="800"/>
+
+**NOTE:** If nothing pops up in the dropdown, click the refresh button right next to the dropdown a couple of times and try again.
+
+Then select the camera topic you want to visualize. In our case, select `/stinger/camera_0/image_raw`. You should see something like the following.
+
+<img src="assets/rqt_image_view_image.png" alt="Image rqt_image_view" width="800"/>
+
+</details>
+
+<details>
+<summary><strong>2.4 Visualization Tools: Rviz2</strong></summary>
+
+> **rivz2** is a 3D visualization tool for various parts of the robot that include sensor data, transformations, markers, robot models, etc.
+
+Make sure the simulation is launched. Then in another terminal, type `rviz2`. You should see something like this:
+
+<img src="assets/rviz2.png" alt="Rviz2" width="800"/>
+
+We are going to display the data coming from the lidar sensor. First, click add in the bottom left corner.
+
+<img src="assets/rviz2_add.png" alt="Rviz2 add" width="800"/>
+
+This will list out the different type of information you can visualize using rviz. Next, click the `By topic` tab.
+
+<img src="assets/rviz2_by_topic.png" alt="Rviz2 by topic" width="800"/>
+
+This will list out the current topics from the robot that can be visualized. We want to visualize the lidar, so click the dropdown `/scan` and then select `LaserScan`
+
+<img src="assets/rviz2_topic_dropdown.png" alt="Rviz2 topic dropdown" width="800"/>
+
+Next we need to change the `Fixed Frame` from `map` to `base_link`. We will learn more about what these mean in a later section.
+
+<img src="assets/rviz2_fixed_frame.png" alt="Rviz2 fixed frame" width="800"/>
+
+Now, you should see some extremely small red dots in the grid. To make them more visible, we can select the `LaserScan` dropdown and increase the `size` to `0.1`.
+
+<img src="assets/rviz2_bigger.png" alt="Rviz2 bigger" width="800"/>
+
+Now you should be able to see these red squares. We will learn more about what a Lidar sensor is in a later section.
 
 </details>
 
