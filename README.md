@@ -171,6 +171,30 @@ Go to the file `question_1_4_client.py`. Correctly request a `yellow_buoy` from 
 In our case, we will be accessing the docker container's generated desktop environment. To do so, go into your web browser and type `localhost:6080`. This should bring you to a webpage that looks something like the below image.
 
 <img src="assets/vnc_weblanding.png" alt="VNC web landing" width="800"/>
+
+Press connect and you should have access to your docker container's VNC.
+</details>
+
+<details>
+
+<summary><strong>2.2 Running Simulation</strong></summary>
+
+In your terminal, run `ros2 launch stinger_bringup vehicle_sim.launch.py`. You should see something along the following:
+
+<img src="assets/sim_startup.png" alt="Sim start up" width="800"/>
+
+If you zoom out, you should be able to see a stinger tug model.
+
+<img src="assets/sim_stinger_tug.png" alt="Sim stinger tug" width="800"/>
+
+Later in this tutorial, you will be developing different algorithms for perception, control, and autonomy. You may want to test these out in different environments. To do so, you can run the sim launch command with the `world:=` parameter. For example, if I wanted to run a different world called `secondary.world`. I would run the following
+
+```
+ros2 launch stinger_bringup vehicle_sim.launch.py world:=secondary.world
+```
+
+Take a look at `stinger-software/stinger_sim/worlds`. These are all the available worlds for you.
+
 </details>
 
 ## Topic 3: Coordinate Conventions
