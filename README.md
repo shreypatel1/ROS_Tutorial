@@ -163,6 +163,16 @@ Go to the file `question_1_4_client.py`. Correctly request a `yellow_buoy` from 
 
 ## Topic 2: Simulation + Useful Tools
 
+<details>
+<summary><strong>2.1 Using VNC</strong></summary>
+
+> **VNC (Virtual Network Computing)** is a graphical desktop-sharing system that allows you to access another desktop's enviornment over a network.
+
+In our case, we will be accessing the docker container's generated desktop environment. To do so, go into your web browser and type `localhost:6080`. This should bring you to a webpage that looks something like the below image.
+
+<img src="assets/vnc_weblanding.png" alt="VNC web landing" width="800"/>
+</details>
+
 ## Topic 3: Coordinate Conventions
 
 ## Topic 4: TF Transformations
