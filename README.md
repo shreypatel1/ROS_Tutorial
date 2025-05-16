@@ -225,7 +225,7 @@ All of the available worlds can be found in `stinger-software/stinger_sim/worlds
 </details>
 
 <details>
-<summary><strong>2.3 Visualization Tools: rqt_image_view</strong></summary>
+<summary><strong>2.3 rqt_image_view</strong></summary>
 
 > **rqt_image_view** is a tool used to see images being published over topics.
 
@@ -248,7 +248,7 @@ Then select the camera topic you want to visualize. In our case, select `/stinge
 </details>
 
 <details>
-<summary><strong>2.4 Visualization Tools: Rviz2</strong></summary>
+<summary><strong>2.4 Rviz2</strong></summary>
 
 > **rivz2** is a 3D visualization tool for various parts of the robot that include sensor data, transformations, markers, robot models, etc.
 
@@ -280,15 +280,56 @@ Now you should be able to see these red squares. We will learn more about what a
 
 </details>
 
-## Topic 3: Coordinate Conventions ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+<details>
 
-## Topic 4: TF Transformations ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+<summary><strong>2.5 rqt</strong></summary>
 
-## Topic 5: Localization ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+</details>
 
-## Topic 6: Perception ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+## Topic 3: Conventions ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
-## Topic 7: Control ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+<details>
 
-## Topic 8: Autonomy ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+<summary><strong>3.1 Unit Conventions</strong></summary>
+
+> **Distance:** meters (m)<br>
+**Angle:** radians (rad)<br>
+**Time:** seconds (s)
+
+</details>
+
+<details>
+
+<summary><strong>3.2 Coordinate Conventions</strong></summary>
+
+> Coordinate conventions are used to ensure consistent interpretation of spatial data (like position, velocity, etc.) across different systems. So for example, if I said a point was at position `(2, -3, 0.5)` relative to me, coordinate conventions would define which variable means "forward", which variable means "up" or "down", does the negative mean "left" or "right" etc.
+> 
+> ROS uses the right-handed coordinate system. The most important coordinate convention is the relative-to-body convention.
+
+We will use your right hand to demonstrate the relative-to-body convention.
+
+#### 3.2.a Linear Coordinate Conventions
+For this topic, we will cover the convention for linear coordinate frames (such as position, velocity, acceleration, etc). Following the example, say I give you a point at position `(2, -3, 0.5)` relative to you. Make this gesture with your right hand with your pointer finger pointing forward.
+
+<img src="assets/right_hand_rule.jpg" alt="right hand rule" width="800"/>
+
+Your index finger represents `x`(forward/backward) and the direction your finger is pointing is considered the positive direction. So, `x = 2` means the object is 2 meters in front of you. Your middle finger represents `y`(left/right). So, `y = -3` means 3 meters to the right of you. Your thumb represents `z`(up/down). So, `z = 0.5` means 0.5 meters above you.
+
+**Note:** In aerospace we use different terms instead of `x`, `y`, `z`, namely, `surge`, `sway`, `heave`.
+
+#### 3.1.b Angular Coordinate Conventions
+
+The 3 rotational degrees of freedom in the body frame are `roll`, `pitch`, and `yaw`, which represent the rotation about the X-axis, Y-axis, and Z-axis respectively. The image below gives a good visual representation of these rotational axes.
+
+<img src="assets/Yaw_Axis_Corrected.svg" alt="rotational axes" width="800"/>
+
+</details>
+
+## Topic 4: Localization ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+
+## Topic 5: Perception ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+
+## Topic 6: Control ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+
+## Topic 7: Autonomy ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
