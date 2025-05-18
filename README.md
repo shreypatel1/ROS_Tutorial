@@ -315,7 +315,13 @@ For this topic, we will cover the convention for linear coordinate frames (such 
 
 Your index finger represents `x`(forward/backward) and the direction your finger is pointing is considered the positive direction. So, `x = 2` means the object is 2 meters in front of you. Your middle finger represents `y`(left/right). So, `y = -3` means 3 meters to the right of you. Your thumb represents `z`(up/down). So, `z = 0.5` means 0.5 meters above you.
 
-**Note:** In aerospace we use different terms instead of `x`, `y`, `z`, namely, `surge`, `sway`, `heave`.
+**Note:** In aerospace we use different terms instead of `x`, `y`, `z` when representing linear motion, namely, `surge`, `sway`, `heave`.
+
+In a terminal, run `ros2 launch stinger_bringup vehicle_sim.launch.py world:=grid.world`. You should see a simulation with a grid overlayed on top of the world. Each box represents 1 meter by 1 meter. Look at `question_3_2.py`. Assign each variable with the correct pose of each buoy using the relative to body convention to the stinger tug.
+
+**Note** For this question, ignore the z-axis and all orientation axes.
+
+**Hint**: [Pose definition](https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Pose.html)
 
 #### 3.1.b Angular Coordinate Conventions
 
