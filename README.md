@@ -254,6 +254,8 @@ Then select the camera topic you want to visualize. In our case, select `/stinge
 
 Make sure the simulation is launched. Then in another terminal, type `rviz2`. You should see something like this:
 
+**Note:** sometimes we refer to `rviz2` as simply `rviz`.
+
 <img src="assets/rviz2.png" alt="Rviz2" width="800"/>
 
 We are going to display the data coming from the lidar sensor. First, click add in the bottom left corner.
@@ -340,6 +342,37 @@ Since the roll axis corresponds with the X-axis, point your thumb forward (where
 Again, in a terminal, run `ros2 launch stinger_bringup vehicle_sim.launch.py world:=grid.world`. Look at `question 3.2.b` in `question_3_2.py`. Assign each variable with the correct yaw angle of each buoy w.r.t (with respect to) the stinger-tug using the above convention.
 
 **Hint** Use your answers from question `3.2.a` and `np.arctan2`.
+
+</details>
+
+<details>
+<summary><strong>3.3 TF Frame Conventions</strong></summary>
+
+> TF (transform) Frames define how different components move relative to each other. 
+
+In a terminal, run `rviz2` and `ros2 launch stinger_bringup vehicle_sim.launch.py`. 
+
+In `rviz`, first ensure that you have the `base_link` frame selected.
+
+<img src="assets/rviz2_baselink.png" alt="rviz2 base link" width="800"/>
+
+Then click `Add` -> `TF`. Expand the `TF` on the side bar and enable `Show Names`. You should see something along the following.
+
+<img src="assets/tf_frames.png" alt="tf frames" width="800"/>
+
+What you are seeing are the current TF frames being displayed. Go to `Frames` and disable all the frames except for `base_link`. You should see something like this:
+
+<img src="assets/tf_baselink.png" alt="tf base link" width="800"/>
+
+The most basic frame is called the `base_link`. This is the robot's base frame and typically represents the center of the robot. As you can see, the `base_link` follows the right hand coordinate convention, with red representing `x`, green representing `y`, and blue representing `z`. 
+
+All components, such as sensors and thrusters, are defined w.r.t the `base_link`. Enable the `camera_0` frame. You should see something like the following:
+
+<img src="assets/camera_frame.png" alt="tf base link" width="800"/>
+
+Notice that the camera frame falls infront of the `base_link` frame. This is because the camera is positioned forward of the center of the stinger tug. It is important to define these TF Frames because we can use these to properly transform any data coming from the camera into the relative body frame (`base_link`).
+
+Two other very important coordinate frames are the `odom` and `map` frame. The `odom` frame is typically used to represent where the robot thinks it has moved to w.r.t where it started. The odom frame is always centered to where the robot started. The `map` frame is typically used to represent the robot's position in the environment and is supposed to be a global fixed frame. The `map` frame does not have to be centered to where the robot started.
 
 </details>
 
