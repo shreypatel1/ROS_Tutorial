@@ -317,17 +317,29 @@ Your index finger represents `x`(forward/backward) and the direction your finger
 
 **Note:** In aerospace we use different terms instead of `x`, `y`, `z` when representing linear motion, namely, `surge`, `sway`, `heave`.
 
-In a terminal, run `ros2 launch stinger_bringup vehicle_sim.launch.py world:=grid.world`. You should see a simulation with a grid overlayed on top of the world. Each box represents 1 meter by 1 meter. Look at `question_3_2.py`. Assign each variable with the correct pose of each buoy using the relative to body convention to the stinger tug.
+In a terminal, run `ros2 launch stinger_bringup vehicle_sim.launch.py world:=grid.world`. You should see a simulation with a grid overlayed on top of the world. Each box represents 1 meter by 1 meter. Look at `question 3.2.a` in `question_3_2.py`. Assign each variable with the correct pose of each buoy using the relative to body convention to the stinger tug.
 
 **Note** For this question, ignore the z-axis and all orientation axes.
 
 **Hint**: [Pose definition](https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Pose.html)
 
-#### 3.1.b Angular Coordinate Conventions
+#### 3.2.b Angular Coordinate Conventions
 
 The 3 rotational degrees of freedom in the body frame are `roll`, `pitch`, and `yaw`, which represent the rotation about the X-axis, Y-axis, and Z-axis respectively. The image below gives a good visual representation of these rotational axes.
 
 <img src="assets/Yaw_Axis_Corrected.svg" alt="rotational axes" width="800"/>
+
+To determine the directionality of an angle, we must use the right hand rotation convention. For example, say we want to determine the positive direction of the roll axis. To do so, make this gesture with your right hand.
+
+<img src="assets/RotationConvention.jpeg" alt="rotational convention" width="800"/>
+
+Since the roll axis corresponds with the X-axis, point your thumb forward (where your pointer finger would have pointed with the right hand rule). Then, curl your hand in the direction that your fingers point (use the figure as reference). This corresponds to the positive direction.
+
+**Note:** The directionality of the angular axes in the plane diagram are wrong.
+
+Again, in a terminal, run `ros2 launch stinger_bringup vehicle_sim.launch.py world:=grid.world`. Look at `question 3.2.b` in `question_3_2.py`. Assign each variable with the correct yaw angle of each buoy w.r.t (with respect to) the stinger-tug using the above convention.
+
+**Hint** Use your answers from question `3.2.a` and `np.arctan2`.
 
 </details>
 
