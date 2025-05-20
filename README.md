@@ -288,7 +288,7 @@ Now you should be able to see these red squares. We will learn more about what a
 
 </details>
 
-## Topic 3: Conventions ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+## Topic 3: Conventions
 
 <details>
 
@@ -377,6 +377,32 @@ Two other very important coordinate frames are the `odom` and `map` frame. The `
 </details>
 
 ## Topic 4: Localization ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+
+<details> <summary> <strong> 4.0 Localization <strong></summary>
+
+> In the context of robotics, localization refers to the process by which a robot determines its pose (position and orientation) within its environment. The robot may use sensors such as an IMU, GPS, or cameras to do so.
+
+</details>
+
+<details> <summary> <strong> 4.1 Odometry </strong> </summary>
+
+When dealing with localization, we commonly use the [Odometry Message Type ](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html) to encapsulate our localization information. This message contains a `pose` (position) and a `twist` (veloicty) field with a covariance matrix. The covariance matrix represents the uncertainty in our estimation for that field. So for example, a high covariance for our `pose` would mean that we have high uncertainty about the accuracy of our estimated position. We will see the covariance matrix's importance in a later section.
+
+</details>
+
+<details> <summary> <strong> 4.2 IMU</strong></summary>
+
+An Inertial Measurement Unit (IMU) is a sensor used to measure a robot's acceleration (accelerometer), angular velocity (gyroscope), and orientation (magnetometer). They usually look something like the following.
+
+<img src="assets/gx4.jpg" alt="imu" width="800"/>
+
+#### 4.2.a Deriving Odometry from Linear Acceleration
+
+As you might recall from physics, acceleration is the change in velocity (derivative) and velocity is the change in position. Therefore, given the linear acceleration from the IMU, we can integrate the linear acceleration once to get velocity and integrate the velocity to get position. As a reminder,
+
+<img src="assets/position_acceleration.png" alt="position acceleration" width="800"/>
+
+</details>
 
 ## Topic 5: Perception ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
