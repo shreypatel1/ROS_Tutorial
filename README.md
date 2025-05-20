@@ -378,7 +378,7 @@ Two other very important coordinate frames are the `odom` and `map` frame. The `
 
 ## Topic 4: Localization ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
-<details> <summary> <strong> 4.0 Localization <strong></summary>
+<details> <summary> <strong> 4.0 Localization </strong></summary>
 
 > In the context of robotics, localization refers to the process by which a robot determines its pose (position and orientation) within its environment. The robot may use sensors such as an IMU, GPS, or cameras to do so.
 
