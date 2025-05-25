@@ -10,9 +10,9 @@ from tf2_ros import TransformListener, Buffer
 np.set_printoptions(suppress=True)
 
 
-class TutorialTopic_4_2(Node):
+class TutorialTopic_4_3(Node):
     def __init__(self):
-        super().__init__('tutorial_topic_4_2')
+        super().__init__('tutorial_topic_4_3')
         self.create_subscription(
             Imu,
             '/stinger/imu/data',
@@ -35,6 +35,10 @@ class TutorialTopic_4_2(Node):
         self.position = np.zeros(2)
         self.prev_time = None
     
+    def rotate_vector(self, rot_matrix, v):
+            vec = np.array([v.x, v.y, v.z])
+            return rot_matrix @ vec
+
     def transfrom_imu(self, msg: Imu):
         transform = None
         # Extract transform from imu to base link from tf tree
@@ -62,12 +66,9 @@ class TutorialTopic_4_2(Node):
         )
 
         # Transform angular velocity and linear acceleration into base_link frame
-        def rotate_vector(v):
-            vec = np.array([v.x, v.y, v.z])
-            return rot_matrix @ vec
 
-        ang_vel = rotate_vector(msg.angular_velocity)
-        lin_acc = rotate_vector(msg.linear_acceleration)
+        ang_vel = self.rotate_vector(rot_matrix, msg.angular_velocity)
+        lin_acc = self.rotate_vector(rot_matrix, msg.linear_acceleration)
 
         transformed_msg = Imu()
         transformed_msg.header.stamp = msg.header.stamp
@@ -105,5 +106,5 @@ class TutorialTopic_4_2(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    node = TutorialTopic_4_2()
+    node = TutorialTopic_4_3()
     rclpy.spin(node)

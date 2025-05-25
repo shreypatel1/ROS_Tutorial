@@ -80,7 +80,7 @@ For example, to run the tests for ```topic 1.2```, you should run `ros2 run auto
 The goal of this section is to familiarize yourself with the concept of nodes and topics. We will be using ROS2 CLI (Command Line Interface) throughout this section.
 
 #### 1.1.a Nodes
-> **Nodes:** A node in ROS2 represents a process that performs computation, such as sensing, control, planning, or actuation, and typically communicates with other nodes using the ROS2 communication framework. 
+**Nodes:** A node in ROS2 represents a process that performs computation, such as sensing, control, planning, or actuation, and typically communicates with other nodes using the ROS2 communication framework. 
 
 First in your terminal, run `ros2 node list`. This will list all running nodes. You should currently have 0 running nodes. Now, in the terminal, run `ros2 run helpers node_q_1_1`. After you run the node, how many nodes are now running? Change the value of `num_nodes` (in ```question_1_1.py```) to the new number of nodes. 
 
@@ -92,7 +92,7 @@ match the name of the node. Here, `node_q_1_1` refers to the executable name, wh
 
 #### 1.1.c Topics
 
-> **Topics:** A topic is a communication channel that allows for messages to be sent between nodes.
+**Topics:** A topic is a communication channel that allows for messages to be sent between nodes.
 **Messages**: A message is an object that contains information such as an image, a velocity, etc.
 
 Stop the node. This can be done by going into the terminal where you ran the node and press `CTRL + c`. Once you have killed the node,
@@ -114,7 +114,7 @@ The goal of this section is to understand what a publisher and subscriber is wit
 
 #### 1.2.a Creating a subscriber to a topic
 
-> **Subscribers/Subscription:** A subscriber is a component of a node that allows the node to receive information and data from a topic.
+**Subscribers/Subscription:** A subscriber is a component of a node that allows the node to receive information and data from a topic.
 
 For this question, fill in the blanks to create a subscriber.
 This subscriber should
@@ -126,7 +126,7 @@ This subscriber should
 **HINT:** There should be four parameters that you fill
 
 #### 1.2.b Creating a publisher
-> **Publishers:** A publisher is a component of a node that allows the node to send information and data to a topic.
+**Publishers:** A publisher is a component of a node that allows the node to send information and data to a topic.
 
 For this question, fill in the blanks to create a publisher.
 This publisher should
@@ -156,13 +156,13 @@ This question is designed to test your knowledge on this topic. Take a look at `
 <details>
 <summary><strong>1.4 Services</strong></summary>
 
-> **Services** are another type of communication mechanism. It consists of a **client** that sends a request to a **service**, which then returns a response. 
+**Services** are another type of communication mechanism. It consists of a **client** that sends a request to a **service**, which then returns a response. 
 Some examples of where services may be used are:
-> - Querying information
-> - Setting parameters
-> - Simple one time calculations
-> 
-> For example, I may have a client that requests the position of a buoy from a mapping service.
+- Querying information
+- Setting parameters
+- Simple one time calculations
+ 
+For example, I may have a client that requests the position of a buoy from a mapping service.
 
 In this question, you will be coding exactly the scenario described above. The relevant files you will be editing are `question_1_4_client.py` and `question_1_4_service.py` in `student_code` and `GetBuoyLocation.srv` in `tutorial_msgs/srv`.
 
@@ -193,7 +193,7 @@ Go to the file `question_1_4_client.py`. Correctly request a `yellow_buoy` from 
 <details>
 <summary><strong>2.1 Using VNC</strong></summary>
 
-> **VNC (Virtual Network Computing)** is a graphical desktop-sharing system that allows you to access another desktop's enviornment over a network.
+**VNC (Virtual Network Computing)** is a graphical desktop-sharing system that allows you to access another desktop's enviornment over a network.
 
 In our case, we will be accessing the docker container's generated desktop environment. To do so, go into your web browser and type `localhost:6080`. This should bring you to a webpage that looks something like the below image.
 
@@ -227,7 +227,7 @@ All of the available worlds can be found in `stinger-software/stinger_sim/worlds
 <details>
 <summary><strong>2.3 rqt_image_view</strong></summary>
 
-> **rqt_image_view** is a tool used to see images being published over topics.
+**rqt_image_view** is a tool used to see images being published over topics.
 
 First start the simulation `ros2 launch stinger_bringup vehicle_sim.launch.py`.
 
@@ -250,7 +250,7 @@ Then select the camera topic you want to visualize. In our case, select `/stinge
 <details>
 <summary><strong>2.4 Rviz2</strong></summary>
 
-> **rivz2** is a 3D visualization tool for various parts of the robot that include sensor data, transformations, markers, robot models, etc.
+**rivz2** is a 3D visualization tool for various parts of the robot that include sensor data, transformations, markers, robot models, etc.
 
 Make sure the simulation is launched. Then in another terminal, type `rviz2`. You should see something like this:
 
@@ -294,7 +294,7 @@ Now you should be able to see these red squares. We will learn more about what a
 
 <summary><strong>3.1 Unit Conventions</strong></summary>
 
-> **Distance:** meters (m)<br>
+**Distance:** meters (m)<br>
 **Angle:** radians (rad)<br>
 **Time:** seconds (s)
 
@@ -304,9 +304,9 @@ Now you should be able to see these red squares. We will learn more about what a
 
 <summary><strong>3.2 Coordinate Conventions</strong></summary>
 
-> Coordinate conventions are used to ensure consistent interpretation of spatial data (like position, velocity, etc.) across different systems. So for example, if I said a point was at position `(2, -3, 0.5)` relative to me, coordinate conventions would define which variable means "forward", which variable means "up" or "down", does the negative mean "left" or "right" etc.
-> 
-> ROS uses the right-handed coordinate system. The most important coordinate convention is the relative-to-body convention.
+Coordinate conventions are used to ensure consistent interpretation of spatial data (like position, velocity, etc.) across different systems. So for example, if I said a point was at position `(2, -3, 0.5)` relative to me, coordinate conventions would define which variable means "forward", which variable means "up" or "down", does the negative mean "left" or "right" etc.
+
+ROS uses the right-handed coordinate system. The most important coordinate convention is the relative-to-body convention.
 
 We will use your right hand to demonstrate the relative-to-body convention.
 
@@ -348,7 +348,7 @@ Again, in a terminal, run `ros2 launch stinger_bringup vehicle_sim.launch.py wor
 <details>
 <summary><strong>3.3 TF Frame Conventions</strong></summary>
 
-> TF (transform) Frames define how different components move relative to each other. 
+TF (transform) Frames define how different components move relative to each other. 
 
 In a terminal, run `rviz2` and `ros2 launch stinger_bringup vehicle_sim.launch.py`. 
 
@@ -380,7 +380,7 @@ Two other very important coordinate frames are the `odom` and `map` frame. The `
 
 <details> <summary> <strong> 4.0 Localization </strong></summary>
 
-> In the context of robotics, localization refers to the process by which a robot determines its pose (position and orientation) within its environment. The robot may use sensors such as an IMU, GPS, or cameras to do so.
+In the context of robotics, localization refers to the process by which a robot determines its pose (position and orientation) within its environment. The robot may use sensors such as an IMU, GPS, or cameras to do so.
 
 </details>
 
@@ -431,23 +431,81 @@ As a reminder, this is what the base_link frame looks like w.r.t to the stinger 
 
 Notice that the imu frame is upside down w.r.t to the base_link frame. This is because of how the IMU is mounted inside of the stinger tug and explains why we were seeing a negative gravity acceleration when we should have seen a positive one.
 
-In `question_4_2.py`, look at the `transfrom_imu(self, msg: Imu)` function. It is okay if you do not completely understand everything in the function. If you ever find yourself needing to do something similar in the future, you can copy paste this function and modify it to fit your needs. This function will take an incoming IMU message in its local frame, and convert all of its data to be in the base_link frame.
+In `question_4_3.py`, look at the `transfrom_imu(self, msg: Imu)` function. It is okay if you do not completely understand everything in the function. If you ever find yourself needing to do something similar in the future, you can copy paste this function and modify it to fit your needs. This function will take an incoming IMU message in its local frame, and convert all of its data to be in the base_link frame.
 
 In seperate terminals, run the following:
 
 ```
 ros2 launch stinger_bringup vehicile_sim.launch.py
-ros2 run student_code question_4_2
+ros2 run student_code question_4_3
 ros2 topic echo /debug --field linear_acceleration --no-arr --once
 ```
 
-Now, notice how the linear acceleration in the `z` direction correctly outputs `+9.81`. By converting the IMU into the base_link frame, it is now easier to use the IMU to localize the stinger tug.
+Now, notice how the linear acceleration in the `z` direction correctly outputs `+9.81`.
+
+By converting the IMU into the base_link frame, it is now easier to use the IMU to localize the stinger tug. It is common for sensors to be in a different frame than the base link frame. To make the data more useful, you will usually have to go through a similar process to convert it into the base link frame.
 
 #### 4.2.b IMU Message: Orientation
 
+Look at the orientation field of the IMU message. Notice that the field type is an Quaternion. A quaternion is a different way of representing angles compared to euler angles (your standard roll, pitch, yaw, [-pi, pi]). Quaternions are often preferred over euler angles in robotics since they have some nice mathematical properties and avoid some common problems with euler angles. If you want a more in depth explanation see [here](https://en.wikipedia.org/wiki/Quaternion). 
+
+Quaternions are reprenseted in a 4D space, which is difficult for us to interpret. This is why we commonly convert quaternions back into euler angles when needing to work with them for intuitive tasks, such as, what angle is the buoy from my stinger tug.
+
+A useful tool for visualizing quaternions is to use `plotjuggler`. In seperate terminals, run the following:
+
+```
+ros2 launch stinger_bringup vehicle_sim.launch.py world:=empty.world
+ros2 run student_code question_4_3
+ros2 run plotjuggler plotjuggler
+```
+
+When you open it up, you should see something like this:
+
+<img src="assets/plotjuggler.png" width="800"/>
+
+Click `Start`
+
+<img src="assets/pj_start.png" width="800"/>
+
+Select the `debug` topic to visualize and press `Ok`.
+
+<img src="assets/pj_topic.png" width="800"/>
+
+Expand the `debug` field and expand orientation.
+
+<img src="assets/pj_orientation.png" width="800"/>
+
+Right click the empty space.
+
+<img src="assets/pj_right.png" width="800"/>
+
+Select the `Split Vertically` option. Do this again and you should have something like this. 
+
+<img src="assets/pj_3_frames.png" width="800"/>
+
+Then from the left hand side under orientation, drag the `roll` field into the top plot, `pitch` into the middle plot, and `yaw` into the bottom plot. You should see something like this:
+
+<img src="assets/pj_orientation_frames.png" width="800"/>
+
+Each plot displays each euler angle as a function of time. 
+
+Keep everything running, in a seperate terminal, run:
+
+```
+ros2 run helpers node_q_4_2
+```
+
+Notice that as the stinger turns left, the yaw positively increases, which correctly follows the relative to body convention.
+
+<img src="assets/pj_yaw.png" width="800"/>
+
 #### 4.2.c IMU Message: Angular Velocity
 
-#### 4.3 Dead Reckoning
+The last part of the IMU message is the angular velocity. There are three values, representing the angular velocity in the `x`, `y`, and `z` direction in radians/second.
+
+</details>
+
+<details><summary><strong>4.3 Dead Reckoning</strong></summary>
 
 As you might recall from physics, acceleration is the change in velocity (derivative) and velocity is the change in position. Therefore, given the linear acceleration from the IMU, we can integrate the linear acceleration once to get velocity and integrate the velocity to get position. As a reminder,
 
@@ -458,12 +516,12 @@ In seperate terminals, run:
 ```
 ros2 launch stinger_bringup vehicle_sim.launch.py world:=empty.world
 ros2 topic echo /stinger/imu/data --field linear_acceleration
-ros2 run helpers node_q_4_2
+ros2 run helpers node_q_4_3
 ```
 
 Notice that as the stinger-tug goes forward, the linear acceleration in the `x` direction increases.
 
-Look at `question_4_2.py`. For this question, we want to publish to the topic `/stinger/odometry` an odometry message containing the velocity in the `x` direction and the current pose of the stinger in the `x` direction. 
+Look at `question_4_3.py`. For this question, we want to publish to the topic `/stinger/odometry` an odometry message containing the velocity in the `x` direction and the current pose of the stinger in the `x` direction. 
 
 
 </details>

@@ -26,7 +26,6 @@ class TutorialTopic_4_2_Helper(Node):
         msg = Float64()
         msg.data = 1.0
         self.stbd_pub.publish(msg)
-        self.port_pub.publish(msg)
 
 def main(args=None):
     rclpy.init(args=args)
