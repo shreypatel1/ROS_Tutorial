@@ -386,7 +386,7 @@ Two other very important coordinate frames are the `odom` and `map` frame. The `
 
 <details> <summary> <strong> 4.1 Odometry </strong> </summary>
 
-When dealing with localization, we commonly use the [Odometry Message Type ](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html) to encapsulate our localization information. This message contains a `pose` (position) and a `twist` (veloicty) field with a covariance matrix. The covariance matrix represents the uncertainty in our estimation for that field. So for example, a high covariance for our `pose` would mean that we have high uncertainty about the accuracy of our estimated position. We will see the covariance matrix's importance in a later section.
+When dealing with localization, we commonly use the [Odometry Message Type ](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html) to encapsulate our localization information. This message contains a `pose` (position) and a `twist` (velocity) field with a covariance matrix. The covariance matrix represents the uncertainty in our estimation for that field. So for example, a high covariance for our `pose` would mean that we have high uncertainty about the accuracy of our estimated position. We will see the covariance matrix's importance in a later section.
 
 </details>
 
@@ -396,11 +396,75 @@ An Inertial Measurement Unit (IMU) is a sensor used to measure a robot's acceler
 
 <img src="assets/gx4.jpg" alt="imu" width="800"/>
 
-#### 4.2.a Deriving Odometry from Linear Acceleration
+For the following sections, we will be breaking down the standard IMU message type. See [here](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Imu.html).
+
+#### 4.2.a IMU Message: Linear Acceleration
+
+The linear acceleration field of the IMU is composed of a 3D vector, representing the linear acceleration captured by the IMU in the `x`, `y`, and `z` directions in the IMU frame. 
+
+**Note:** The IMU will usually capture the effet of gravity. Because of this, even when the IMU is stationary, we will see a linear acceleration of +9.81 m/s^2 in the heave direction of the robot.
+
+In seperate terminals, run the following:
+
+```
+ros2 launch stinger_bringup vehicile_sim.launch.py
+ros2 topic echo /stinger/imu/data --field linear_acceleration --no-arr --once
+```
+
+Notice how when displaying the linear acceration for the IMU the acceleration in the `z` direction is around `-9.81`, when it should be `+9.81`. This is because the IMU measures data in its local coordinate frame which may not match up directly with the robots coordinate frame. We will explain this in the next section.
+
+#### 4.2.b IMU Message: TF Frames
+
+Reference the above picture of the IMU. In the bottom right corner, you can see that there are 2 arrows representing the `x` and `y` directions. The `z` direction is denoted by an cross symbol to represent that the `z` axis is pointed into the plane. See the below as reference.
+
+<img src="assets/in_out_plane.png" alt="in out plane" width="800"/>
+
+The left represents a vector into the plane, the right represents a vector out of the plane. 
+
+Notice that the IMU's coordinate axes follow the right hand rule. These axes represent the IMU's local sensor frame. Look at the TF frames of the stinger tug in the picture below.
+
+<img src="assets/baselink_frame.png" width="800"/>
+
+As a reminder, this is what the base_link frame looks like w.r.t to the stinger tug.
+
+<img src="assets/imu_to_baselink.png" width="800"/>
+
+Notice that the imu frame is upside down w.r.t to the base_link frame. This is because of how the IMU is mounted inside of the stinger tug and explains why we were seeing a negative gravity acceleration when we should have seen a positive one.
+
+In `question_4_2.py`, look at the `transfrom_imu(self, msg: Imu)` function. It is okay if you do not completely understand everything in the function. If you ever find yourself needing to do something similar in the future, you can copy paste this function and modify it to fit your needs. This function will take an incoming IMU message in its local frame, and convert all of its data to be in the base_link frame.
+
+In seperate terminals, run the following:
+
+```
+ros2 launch stinger_bringup vehicile_sim.launch.py
+ros2 run student_code question_4_2
+ros2 topic echo /debug --field linear_acceleration --no-arr --once
+```
+
+Now, notice how the linear acceleration in the `z` direction correctly outputs `+9.81`. By converting the IMU into the base_link frame, it is now easier to use the IMU to localize the stinger tug.
+
+#### 4.2.b IMU Message: Orientation
+
+#### 4.2.c IMU Message: Angular Velocity
+
+#### 4.3 Dead Reckoning
 
 As you might recall from physics, acceleration is the change in velocity (derivative) and velocity is the change in position. Therefore, given the linear acceleration from the IMU, we can integrate the linear acceleration once to get velocity and integrate the velocity to get position. As a reminder,
 
 <img src="assets/position_acceleration.png" alt="position acceleration" width="800"/>
+
+In seperate terminals, run:
+
+```
+ros2 launch stinger_bringup vehicle_sim.launch.py world:=empty.world
+ros2 topic echo /stinger/imu/data --field linear_acceleration
+ros2 run helpers node_q_4_2
+```
+
+Notice that as the stinger-tug goes forward, the linear acceleration in the `x` direction increases.
+
+Look at `question_4_2.py`. For this question, we want to publish to the topic `/stinger/odometry` an odometry message containing the velocity in the `x` direction and the current pose of the stinger in the `x` direction. 
+
 
 </details>
 

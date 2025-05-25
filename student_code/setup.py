@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'question_1_2 = student_code.topic_1.question_1_2:main',
             'question_1_3 = student_code.topic_1.question_1_3:main',
+            'question_4_2 = student_code.topic_4.question_4_2:main',
         ],
     },
 )
