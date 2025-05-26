@@ -509,13 +509,59 @@ The last part of the IMU message is the angular velocity. There are three values
 
 Dead reckoning is a navigation technique used to localize a vehicle by calculating its position by tracking speed, direction, and time traveled.
 
-#### 4.3.a IMU Dead Reckoning
+#### 4.3.a Odom Frame
+
+Run the following:
+
+```
+ros2 launch stinger_bringup vehicle_sim.launch.py world:=empty.world
+ros2 run student_code question_4_3
+ros2 run plotjuggler plotjuggler
+```
+
+Select the `/debug` topic to visualize and plot the linear acceleration in the `x` and `y` directions. You should see something like this.
+
+<img src="assets/imu_base.png" width="800"/>
+
+Then in a terminal, run
+
+```
+ros2 run helpers node_q_4_2
+```
+
+Take a look at your `plotjuggler` graph, you should see something like this:
+
+<img src="assets/imu_going.png" width="800"/>
+
+Now look at the simulation, you should see that the stinger tug is going forward and to the left. However, our plot juggler graphs are showing us that our stinger tug is accelerating to the right. This must mean that even after transforming our IMU into the 
+`base_link` frame, there is something still wrong.
+
+This is where the `odom` frame comes in. If you don't remember its definition, check out `3.3 TF Frame Conventions`. When we talk about localization, we always discuss it in the `odom` frame. This `odom` frame will origin its coordinate frame to where the `base_link` frame starts (where the robot initializes). To better outline the difference between the `base_link` frame and the `odom` frame, follow this example of an IMU transformed to the `base_link` frame vs the `odom` frame.
+
+| English     | base_link POV | odom POV |
+|-------------|-------------|-------------|
+| Robot moves forward 1 meter     | Robot moves 1 meter along the x-axis  | (0, 0) -> (1, 0)  |
+| Robot turns 90 degrees to the left  | Robot turns 90 degrees to the left  | Robot faces 90 degrees to the left  |
+| Robot moves forward 2 meters | Robot moves 2 meters along the x-axis  | (1, 0) -> (1, 2)  |
+| Robot turns 45 degrees to the left  | Robot turns 45 degrees to the left  | Robot faces 135 degrees to the left|
+
+To correctly localize ourselves, we must convert our `base_link` measurements into the `odom` frame. With an IMU, this involves using the IMU's orientation to rotate the `linear_acceleration` and `angular_velocity`. Look at `question_4_3.py`, complete `4.3.a Odom Frame IMU` by rotating the `linear_acceleration` and `angular_velocity` from `msg_base_link` with `msg_base_link.orientation`. 
+
+**Hint:** Use the code in `transform_imu` as reference.
+
+#### 4.3.b IMU Dead Reckoning
 
 As you might recall from physics, acceleration is the change in velocity (derivative) and velocity is the change in position. Therefore, given the linear acceleration from the IMU, we can integrate the linear acceleration to get velocity and integrate the velocity to get position. As a reminder,
 
 <img src="assets/position_acceleration.png" alt="position acceleration" width="800"/>
 
-Look at `question_4_3.py`. For this question, we want to publish to the topic `/stinger/odometry` an odometry message containing the current velocity and pose in the `x` and `y` direction. A topic called `/ground_truth/odometry` is given to you which you should use to verify your computation. 
+Look at `question_4_3.py`, complete `4.3.b IMU Dead Reckoning`. For this question, we want to publish to the topic `/stinger/odometry` an odometry message containing the following fields:
+- frame_id
+- child_frame_id
+- twist
+- pose
+
+For all fields relating to heave, you can set it to 0. Also, disregard the covaraince fields. A topic called `/ground_truth/odometry` is given to you which you should use to verify your computation. 
 
 
 To run your code and verify, run in seperate terminals:
@@ -525,12 +571,14 @@ ros2 launch stinger_bringup vehicle_sim.launch.py world:=empty.world
 ros2 topic echo /ground_truth/odometry --no-arr
 ros2 run student_code question_4_3
 ros2 topic echo /stinger/odometry --no-arr
-ros2 run helpers node_q_4_3
+ros2 run helpers node_q_4_2
 ```
+
+You may also find it useful to use `plotjuggler` to visualize your output.
 
 **Hint:** Use the variables defined in the constructor.
 
-#### 4.3.b IMU Drift
+**Note:** IMU's are rarely solely used to localize a vehicle. This is because IMU's typically experience something called IMU drift, where over time, the IMU will accumulate error that gets exponentiated through integration in the velocity and position estimates. The reason it works in simulation is because the IMU's are almost ideal and errorless.
 
 </details>
 

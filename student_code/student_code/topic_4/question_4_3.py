@@ -104,7 +104,7 @@ class TutorialTopic_4_3(Node):
             return
         self.imu_debug_pub.publish(msg_base_link)
 
-        # TODO: 4.3.a World Frame IMU
+        # TODO: 4.3.a Odom Frame IMU
         ### STUDENT CODE HERE
 
         ### END STUDENT CODE
