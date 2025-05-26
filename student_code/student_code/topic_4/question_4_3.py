@@ -34,6 +34,7 @@ class TutorialTopic_4_3(Node):
         self.velocity = np.zeros(2)
         self.position = np.zeros(2)
         self.prev_time = None
+        self.min_iterations_startup = 0
     
     def rotate_vector(self, rot_matrix, v):
             vec = np.array([v.x, v.y, v.z])
@@ -88,21 +89,33 @@ class TutorialTopic_4_3(Node):
         return transformed_msg
 
     def imu_callback(self, msg: Imu):
+        # Ignore the first few publishes due to startup inconsistencies
+        if self.min_iterations_startup < 10:
+            self.min_iterations_startup += 1
+            return
+
         if self.prev_time is None:
             self.prev_time = self.get_clock().now()
             return
-        odom_msg = Odometry()
-        current_time = self.get_clock().now()
-        dt = (current_time - self.prev_time).nanoseconds / 1e9
-        self.prev_time = current_time
+
         msg_base_link = self.transfrom_imu(msg)
         if msg_base_link is None:
             self.get_logger().warn("Failed to get transform, skipping")
             return
         self.imu_debug_pub.publish(msg_base_link)
-### STUDENT CODE HERE
 
-### END STUDENT CODE
+        # TODO: 4.3.a World Frame IMU
+        ### STUDENT CODE HERE
+
+        ### END STUDENT CODE
+
+
+        odom_msg = Odometry()
+        odom_msg.header.stamp = msg.header.stamp
+        # TODO: 4.3.b IMU Dead Reckoning
+        ### STUDENT CODE HERE
+
+        ### END STUDENT CODE
 
 def main(args=None):
     rclpy.init(args=args)

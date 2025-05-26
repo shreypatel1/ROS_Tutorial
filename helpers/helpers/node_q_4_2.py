@@ -24,7 +24,7 @@ class TutorialTopic_4_2_Helper(Node):
     
     def forward_callback(self):
         msg = Float64()
-        msg.data = 1.0
+        msg.data = 5.0
         self.stbd_pub.publish(msg)
 
 def main(args=None):

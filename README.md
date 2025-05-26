@@ -507,22 +507,30 @@ The last part of the IMU message is the angular velocity. There are three values
 
 <details><summary><strong>4.3 Dead Reckoning</strong></summary>
 
-As you might recall from physics, acceleration is the change in velocity (derivative) and velocity is the change in position. Therefore, given the linear acceleration from the IMU, we can integrate the linear acceleration once to get velocity and integrate the velocity to get position. As a reminder,
+Dead reckoning is a navigation technique used to localize a vehicle by calculating its position by tracking speed, direction, and time traveled.
+
+#### 4.3.a IMU Dead Reckoning
+
+As you might recall from physics, acceleration is the change in velocity (derivative) and velocity is the change in position. Therefore, given the linear acceleration from the IMU, we can integrate the linear acceleration to get velocity and integrate the velocity to get position. As a reminder,
 
 <img src="assets/position_acceleration.png" alt="position acceleration" width="800"/>
 
-In seperate terminals, run:
+Look at `question_4_3.py`. For this question, we want to publish to the topic `/stinger/odometry` an odometry message containing the current velocity and pose in the `x` and `y` direction. A topic called `/ground_truth/odometry` is given to you which you should use to verify your computation. 
+
+
+To run your code and verify, run in seperate terminals:
 
 ```
 ros2 launch stinger_bringup vehicle_sim.launch.py world:=empty.world
-ros2 topic echo /stinger/imu/data --field linear_acceleration
+ros2 topic echo /ground_truth/odometry --no-arr
+ros2 run student_code question_4_3
+ros2 topic echo /stinger/odometry --no-arr
 ros2 run helpers node_q_4_3
 ```
 
-Notice that as the stinger-tug goes forward, the linear acceleration in the `x` direction increases.
+**Hint:** Use the variables defined in the constructor.
 
-Look at `question_4_3.py`. For this question, we want to publish to the topic `/stinger/odometry` an odometry message containing the velocity in the `x` direction and the current pose of the stinger in the `x` direction. 
-
+#### 4.3.b IMU Drift
 
 </details>
 

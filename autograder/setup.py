@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+import os
+from glob import glob
 
 package_name = 'autograder'
 
@@ -10,6 +12,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'launch'),
+         glob(os.path.join('launch', '*[pxy][yma]*'))),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -25,6 +29,7 @@ setup(
             'test_topic_1_3 = autograder.topic_1.question_1_3_grader:main',
             'test_topic_1_4 = autograder.topic_1.question_1_4_grader:main',
             'test_topic_3_2 = autograder.topic_3.question_3_2_grader:main',
+            'test_topic_4_3 = autograder.topic_4.question_4_3_grader:main',
         ],
     },
 )
