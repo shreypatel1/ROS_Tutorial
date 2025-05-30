@@ -376,7 +376,7 @@ Two other very important coordinate frames are the `odom` and `map` frame. The `
 
 </details>
 
-## Topic 4: Localization ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+## Topic 4: Localization ![WIP](https://img.shields.io/badge/NPR-Needs_Proof_Reading-yellow)
 
 <details> <summary> <strong> 4.0 Localization </strong></summary>
 
@@ -536,13 +536,13 @@ Take a look at your `plotjuggler` graph, you should see something like this:
 Now look at the simulation, you should see that the stinger tug is going forward and to the left. However, our plot juggler graphs are showing us that our stinger tug is accelerating to the right. This must mean that even after transforming our IMU into the 
 `base_link` frame, there is something still wrong.
 
-This is where the `odom` frame comes in. If you don't remember its definition, check out `3.3 TF Frame Conventions`. When we talk about localization, we always discuss it in the `odom` frame. This `odom` frame will origin its coordinate frame to where the `base_link` frame starts (where the robot initializes). To better outline the difference between the `base_link` frame and the `odom` frame, follow this example of an IMU transformed to the `base_link` frame vs the `odom` frame.
+This is where the `odom` frame comes in. If you don't remember its definition, check out `3.3 TF Frame Conventions`. When we talk about localization, we always discuss it in the `odom` frame. This `odom` frame will origin its coordinate frame where the `base_link` frame starts (where the robot initializes). To better outline the difference between the `base_link` frame and the `odom` frame, follow this example of an IMU transformed to the `base_link` frame vs the `odom` frame.
 
 | English     | base_link POV | odom POV |
 |-------------|-------------|-------------|
-| Robot moves forward 1 meter     | Robot moves 1 meter along the x-axis  | (0, 0) -> (1, 0)  |
+| Robot moves forward 1 meter     | Robot moves 1 meter along its x-axis  | (0, 0) -> (1, 0)  |
 | Robot turns 90 degrees to the left  | Robot turns 90 degrees to the left  | Robot faces 90 degrees to the left  |
-| Robot moves forward 2 meters | Robot moves 2 meters along the x-axis  | (1, 0) -> (1, 2)  |
+| Robot moves forward 2 meters | Robot moves 2 meters along its x-axis  | (1, 0) -> (1, 2)  |
 | Robot turns 45 degrees to the left  | Robot turns 45 degrees to the left  | Robot faces 135 degrees to the left|
 
 To correctly localize ourselves, we must convert our `base_link` measurements into the `odom` frame. With an IMU, this involves using the IMU's orientation to rotate the `linear_acceleration` and `angular_velocity`. Look at `question_4_3.py`, complete `4.3.a Odom Frame IMU` by rotating the `linear_acceleration` and `angular_velocity` from `msg_base_link` with `msg_base_link.orientation`. 
@@ -579,6 +579,121 @@ You may also find it useful to use `plotjuggler` to visualize your output.
 **Hint:** Use the variables defined in the constructor.
 
 **Note:** IMU's are rarely solely used to localize a vehicle. This is because IMU's typically experience something called IMU drift, where over time, the IMU will accumulate error that gets exponentiated through integration in the velocity and position estimates. The reason it works in simulation is because the IMU's are almost ideal and errorless.
+
+</details>
+
+<details> <summary> <strong> 4.4 robot_localization</strong></summary>
+
+#### 4.4.a Integrating IMU in robot_localization
+
+In section 4.3, we estimated our odometry using only one odometry source (the imu). Now what if we have multiple IMUs and other odometry sources (such as a GPS) each in their own frame. For example, at a given time our IMU might think that we are at position (3.0, 4.2), while our GPS thinks that we are at position (3.1, 4.0). So how should we fuse this data together?
+
+`robot_localization` is a package that provides a node called `ekf_node`. If you're interested in deeply understanding what an Extended Kalman Filter is, a good resource is [MIT Tutorial: Kalman Filter](https://web.mit.edu/kirtley/kirtley/binlustuff/literature/control/Kalman%20filter.pdf) (not mandatory). The general idea is that the `ekf_node` will fuse a set of unreliable/weak odometry sources and form a stronger estimate of our odometry. It will also take care of all tf transforms as long as they are defined and broadcasted.    
+
+Take a look at `stinger-software/stinger_bringup/config/ekf.yaml`. This config file will define the parameters for the `ekf_node`. The most important parameter in this config file is defining which fields (see below) from each odometry source should be used in our estimate. This is important because for example, our IMU doesn't natively report our `x_pos` or `y_pos`. Because of this, the `ekf_node` needs to know to ignore these fields.
+
+```
+[x_pos   , y_pos    , z_pos,
+ roll    , pitch    , yaw,
+ x_vel   , y_vel    , z_vel,
+ roll_vel, pitch_vel, yaw_vel,
+ x_accel , y_accel  , z_accel]
+```
+
+In the `ekf.yaml`, look at the `4.4.a Example`. This array defines which fields should be used. Each boolean value in the array corresponds to an odometry field in the above array. So in this example configuration, we enable feeding the `x_pos`, `y_pos`, and `yaw` into the ekf (this configuration is not right, just an example).
+
+Look at `TODO: 4.4.a Integrating IMU in robot_localization`. Following from the example, correctly define which odometry fields should be fed into the ekf from the IMU.
+
+**Note:** Exclude linear acceleration (among other things). This means your last 3 values should be false.
+
+**Hint:** What fields are defined in the IMU message? You should be using all of them.
+
+To run the tests:
+
+```
+ros2 launch autograder test_4_4.launch.py
+```
+
+#### 4.4.b GPS and Navsat Node
+
+Launch the simulation and run
+
+```
+ros2 topic echo /stinger/gps/fix
+```
+
+The message over this topic is of type [NavSatFix](https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/NavSatFix.html). Notice how our position is given in terms of longitude and latitude. Out of the box, this isn't useful to us because we need our position in terms of x and y in meters. To handle this, `robot_localization` provides a node called `navsat_transform` that will transform a `NavSatFix` message from a gps into an `Odometry` message that we can more easily use.
+
+The `navsat_transform` node requires the following topics: `/imu`, `/gps/fix`, and `/odometry/filtered` (you can ignore this one for now). But, the topics for our sensors are `/stinger/imu/data` and `/stinger/gps/fix`. This is where topic remapping comes into use.  
+
+Look at `stinger_bringup/launch/localization.launch.py` `TODO: 4.4.b Navsat Node`. In the arguments of the second `Node` definition, there is a parameter named `remappings`, which is an array of tuples. An example is given of how to remap a topic. For this question, correctly remap the imu and gps topics.
+
+
+To run the tests:
+
+```
+ros2 launch autograder test_4_4.launch.py
+```
+
+#### 4.4.c Everything Together
+
+Now with our GPS converted into odometry, we want to fuse this with our IMU to form a strong odometry estimate. 
+
+In seperate terminals, run:
+
+
+```
+ros2 launch stinger_bringup vehicle_sim.launch.py
+ros2 launch stinger_bringup localization.launch.py
+ros2 topic echo /odometry/gps
+```
+
+Publish commands to the motors using `rqt` and take note of which odometry fields from `/odometry/gps` are relevant. This is important because some fields (such as orientation) are left 0 and we do not want to include these invalid fields into our ekf.
+
+Again, take a look at `stinger-software/stinger_bringup/config/ekf.yaml`. Following the structure of the IMU config, add the config for the GPS with only the relevant odometry fields.
+
+</details>
+
+<details> <summary> <strong> 4.5 Localization Wrap-up</strong></summary>
+
+In seperate terminals run,
+
+```
+ros2 launch stinger_bringup vehicle_sim.launch.py
+ros2 launch stinger_bringup localization.launch.py
+ros2 run plotjuggler plotjuggler
+rqt
+```
+
+In plotjuggler, click `Start` and select these two topics.
+
+<img src="assets/localization.png" width="800"/>
+
+Vertically split the plots.
+
+<img src="assets/vertically_split_plots.png" width="800"/>
+
+Then, expand the `ground_truth` topic until you see `position x y`. Shift click `x` and `y`.
+
+<img src="assets/shift_click.png" width="800"/>
+
+Then, right-click the fields. While continuing to hold down the right-click, drag the fields onto a plot. Then click OK.
+
+<img src="assets/curve.png" width="800"/>
+
+You should see something like this.
+
+<img src="assets/truth_plot.png" width="800"/>
+
+Repeat this process for `/odometry/filtered`. You should see something like this.
+
+<img src="assets/two_plots.png" width="800"/>
+
+Now, using rqt, publish anything to the motors. You should see that the two curves are roughly the same.
+
+<img src="assets/two_curves_moving.png" width="800"/>
+
+If everything looks good, congratulations! You just localized the stinger-tug.
 
 </details>
 

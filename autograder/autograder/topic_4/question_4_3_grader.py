@@ -4,7 +4,6 @@ from nav_msgs.msg import Odometry
 from message_filters import Subscriber, ApproximateTimeSynchronizer
 from autograder.utils import grader
 import numpy as np
-import tf_transformations
 
 MAX_INTERATIONS = 1000
 
@@ -51,6 +50,7 @@ class Question_4_3_Grader(Node):
     def grade(self, ground_truth: Odometry, student_odometry: Odometry):
         if self.current_iteration > MAX_INTERATIONS:
             self.correct()
+            return
         self.get_logger().info(f"Iteration: {self.current_iteration}")
         self.current_iteration += 1
         ground_truth_pose = ground_truth.pose.pose
@@ -89,20 +89,20 @@ class Question_4_3_Grader(Node):
         
     def correct(self):
         self.good = (self.good / MAX_INTERATIONS) > 0.5
-        grader.verify_answer(True, self.good[0], "4.3.b Correct pose x")
-        grader.verify_answer(True, self.good[1], "4.3.b Correct pose y")
-        grader.verify_answer(True, self.good[2], "4.3.b Correct pose z")
-        grader.verify_answer(True, self.good[3], "4.3.b Correct twist x")
-        grader.verify_answer(True, self.good[4], "4.3.b Correct twist y")
-        grader.verify_answer(True, self.good[5], "4.3.b Correct twist z")
-        grader.verify_answer(True, self.good[6], "4.3.b Correct orientation roll")
-        grader.verify_answer(True, self.good[7], "4.3.b Correct orientation pitch")
-        grader.verify_answer(True, self.good[8], "4.3.b Correct orientation yaw")
-        grader.verify_answer(True, self.good[9], "4.3.b Correct header frame id")
-        grader.verify_answer(True, self.good[10], "4.3.b Correct child frame id")
-        grader.verify_answer(True, self.good[11], "4.3.b Correct angular velocity x")
-        grader.verify_answer(True, self.good[12], "4.3.b Correct angular velocity y")
-        grader.verify_answer(True, self.good[13], "4.3.b Correct angular velocity z")
+        grader.verify_answer(True, self.good[0], "4.3.b Correct pose x", self)
+        grader.verify_answer(True, self.good[1], "4.3.b Correct pose y", self)
+        grader.verify_answer(True, self.good[2], "4.3.b Correct pose z", self)
+        grader.verify_answer(True, self.good[3], "4.3.b Correct twist x", self)
+        grader.verify_answer(True, self.good[4], "4.3.b Correct twist y", self)
+        grader.verify_answer(True, self.good[5], "4.3.b Correct twist z", self)
+        grader.verify_answer(True, self.good[6], "4.3.b Correct orientation roll", self)
+        grader.verify_answer(True, self.good[7], "4.3.b Correct orientation pitch", self)
+        grader.verify_answer(True, self.good[8], "4.3.b Correct orientation yaw", self)
+        grader.verify_answer(True, self.good[9], "4.3.b Correct header frame id", self)
+        grader.verify_answer(True, self.good[10], "4.3.b Correct child frame id", self)
+        grader.verify_answer(True, self.good[11], "4.3.b Correct angular velocity x", self)
+        grader.verify_answer(True, self.good[12], "4.3.b Correct angular velocity y", self)
+        grader.verify_answer(True, self.good[13], "4.3.b Correct angular velocity z", self)
         rclpy.shutdown()
 
 def main(args=None):
