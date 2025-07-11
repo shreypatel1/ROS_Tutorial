@@ -74,7 +74,7 @@ For example, to run the tests for ```topic 1.2```, you should run `ros2 run auto
 **Note:** Building your code is super important for ensuring that your latest changes are reflected when you execute your code.
 
 ## Topic 1: ROS2 Basics
-<details>
+<det#ails>
 <summary><strong>1.1 Understanding Nodes and Topics</strong></summary>
 
 The goal of this section is to familiarize yourself with the concept of nodes and topics. We will be using ROS2 CLI (Command Line Interface) throughout this section.
@@ -107,7 +107,7 @@ When debugging, it sometimes important to check out what messages are being publ
 **Note:** do not include ```"data: "``` in your answer.
 </details>
 
-<details>
+<det#ails>
 <summary><strong>1.2 Coding Subscriber and Publishers</strong></summary>
 
 The goal of this section is to understand what a publisher and subscriber is within ROS2 and how to create them. Please look at file `question1_2.py`. You may run ```ros2 run helpers node_q_1_2.py``` to debug your answer.
@@ -145,7 +145,7 @@ For this question, take the value from `topic_string_message` and append the str
 
 </details>
 
-<details>
+<det#ails>
 <summary><strong>1.3 Counter Node</strong></summary>
 
 This question is designed to test your knowledge on this topic. Take a look at `question_1_3.py`. The goal of this node is to publish to a topic called `/tutorial/counter25` with numbers of type `Int32` starting from 0 incrementing to 25 inclusive. A rough outline has been provided for you. Fill in the blanks to complete this question.
@@ -153,7 +153,7 @@ This question is designed to test your knowledge on this topic. Take a look at `
 **HINT:** It may be useful to debug your node using `ros2 run student_code question_1_3` and `ros2 topic echo /tutorial/counter25`.
 </details>
 
-<details>
+<det#ails>
 <summary><strong>1.4 Services</strong></summary>
 
 **Services** are another type of communication mechanism. It consists of a **client** that sends a request to a **service**, which then returns a response. 
@@ -190,7 +190,7 @@ Go to the file `question_1_4_client.py`. Correctly request a `yellow_buoy` from 
 
 **Note:** There are no tests for this section.
 
-<details>
+<det#ails>
 <summary><strong>2.1 Using VNC</strong></summary>
 
 **VNC (Virtual Network Computing)** is a graphical desktop-sharing system that allows you to access another desktop's enviornment over a network.
@@ -202,7 +202,7 @@ In our case, we will be accessing the docker container's generated desktop envir
 Press connect and you should have access to your docker container's VNC.
 </details>
 
-<details>
+<det#ails>
 
 <summary><strong>2.2 Running Simulation</strong></summary>
 
@@ -224,7 +224,7 @@ All of the available worlds can be found in `stinger-software/stinger_sim/worlds
 
 </details>
 
-<details>
+<det#ails>
 <summary><strong>2.3 rqt_image_view</strong></summary>
 
 **rqt_image_view** is a tool used to see images being published over topics.
@@ -247,7 +247,7 @@ Then select the camera topic you want to visualize. In our case, select `/stinge
 
 </details>
 
-<details>
+<det#ails>
 <summary><strong>2.4 Rviz2</strong></summary>
 
 **rivz2** is a 3D visualization tool for various parts of the robot that include sensor data, transformations, markers, robot models, etc.
@@ -282,7 +282,7 @@ Now you should be able to see these red squares. We will learn more about what a
 
 </details>
 
-<details>
+<det#ails>
 
 <summary><strong>2.5 rqt</strong></summary>
 
@@ -290,7 +290,7 @@ Now you should be able to see these red squares. We will learn more about what a
 
 ## Topic 3: Conventions
 
-<details>
+<det#ails>
 
 <summary><strong>3.1 Unit Conventions</strong></summary>
 
@@ -300,7 +300,7 @@ Now you should be able to see these red squares. We will learn more about what a
 
 </details>
 
-<details>
+<det#ails>
 
 <summary><strong>3.2 Coordinate Conventions</strong></summary>
 
@@ -345,7 +345,7 @@ Again, in a terminal, run `ros2 launch stinger_bringup vehicle_sim.launch.py wor
 
 </details>
 
-<details>
+<det#ails>
 <summary><strong>3.3 TF Frame Conventions</strong></summary>
 
 TF (transform) Frames define how different components move relative to each other. 
@@ -378,19 +378,19 @@ Two other very important coordinate frames are the `odom` and `map` frame. The `
 
 ## Topic 4: Localization ![WIP](https://img.shields.io/badge/NPR-Needs_Proof_Reading-yellow)
 
-<details> <summary> <strong> 4.0 Localization </strong></summary>
+<det#ails> <summary> <strong> 4.0 Localization </strong></summary>
 
 In the context of robotics, localization refers to the process by which a robot determines its pose (position and orientation) within its environment. The robot may use sensors such as an IMU, GPS, or cameras to do so.
 
 </details>
 
-<details> <summary> <strong> 4.1 Odometry </strong> </summary>
+<det#ails> <summary> <strong> 4.1 Odometry </strong> </summary>
 
 When dealing with localization, we commonly use the [Odometry Message Type ](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html) to encapsulate our localization information. This message contains a `pose` (position) and a `twist` (velocity) field with a covariance matrix. The covariance matrix represents the uncertainty in our estimation for that field. So for example, a high covariance for our `pose` would mean that we have high uncertainty about the accuracy of our estimated position. We will see the covariance matrix's importance in a later section.
 
 </details>
 
-<details> <summary> <strong> 4.2 IMU</strong></summary>
+<det#ails> <summary> <strong> 4.2 IMU</strong></summary>
 
 An Inertial Measurement Unit (IMU) is a sensor used to measure a robot's acceleration (accelerometer), angular velocity (gyroscope), and orientation (magnetometer). They usually look something like the following.
 
@@ -505,7 +505,7 @@ The last part of the IMU message is the angular velocity. There are three values
 
 </details>
 
-<details><summary><strong>4.3 Dead Reckoning</strong></summary>
+<det#ails><summary><strong>4.3 Dead Reckoning</strong></summary>
 
 Dead reckoning is a navigation technique used to localize a vehicle by calculating its position by tracking speed, direction, and time traveled.
 
@@ -582,7 +582,7 @@ You may also find it useful to use `plotjuggler` to visualize your output.
 
 </details>
 
-<details> <summary> <strong> 4.4 robot_localization</strong></summary>
+<det#ails> <summary> <strong> 4.4 robot_localization</strong></summary>
 
 #### 4.4.a Integrating IMU in robot_localization
 
@@ -654,13 +654,14 @@ Again, take a look at `stinger-software/stinger_bringup/config/ekf.yaml`. Follow
 
 </details>
 
-<details> <summary> <strong> 4.5 Localization Wrap-up</strong></summary>
+<det#ails> <summary> <strong> 4.5 Localization Wrap-up</strong></summary>
 
-In seperate terminals run,
+Take a look at `stinger_bringup/launch/vehicle_sim.launch.py`. Follow the instructions and uncomment the code block.
+
+Then, in seperate terminals run,
 
 ```
 ros2 launch stinger_bringup vehicle_sim.launch.py
-ros2 launch stinger_bringup localization.launch.py
 ros2 run plotjuggler plotjuggler
 rqt
 ```
@@ -697,9 +698,35 @@ If everything looks good, congratulations! You just localized the stinger-tug.
 
 </details>
 
-## Topic 5: Perception ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+## Topic 5: Control ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
-## Topic 6: Control ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+<det#ails>
+<summary><strong>5.0 Overview</strong></summary>
+
+Very generally, Control refers to how we command the robot to move in order to accomplish something. 
+
+There are three main levels of control. <br>
+**Low Level Control:** This involves sending commands (rotational speeds) to the motors to make the robot achieve a specific target velocity. <br>
+**Mid Level Control:** This involves commanding velocities to make the robot follow a path. <br>
+**High Level Control:** This involves creating a path that the robot should follow. This is often coupled with autonomy.
+
+Let's walk through a real life example. Say you're a driving your car and you want to get from your apartment to your friend's house. You may use Google Maps to get directions to their house. In this scenario Google Maps is the **High Level Controller** because it creates a path (a set of directions) to their house. You, the driver, are both the **Mid Level Controller** and the **Low Level Controller.** While driving, you control the speed and direction of the car to follow the path created by Google Maps; this is **Mid Level Control.** To drive a certain speed along the road, you control the gas; this is **Low Level Control.**
+
+The main idea is that commands cascade from the top-down. For example, the high level controller provides a path to the mid level controller. Then the mid level controller provides a velocity to the low level controller to follow the path. Then the low level controller acts to actually move the robot.
+
+In this topic, we will be covering **Low Level Control** and **Mid Level Control**.
+</details>
+
+<det#ails>
+<summary><strong>5.1 Low Level Control</strong></summary>
+
+Take a look at `stinger_controller/throttle_controller.py`.
+
+
+ The logic in this code is quite advanced, so feel free to skim over this node.  
+</details>
+
+## Topic 6: Perception ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
 ## Topic 7: Autonomy ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
