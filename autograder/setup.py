@@ -31,6 +31,7 @@ setup(
             'test_topic_3_2 = autograder.topic_3.question_3_2_grader:main',
             'test_topic_4_3 = autograder.topic_4.question_4_3_grader:main',
             'test_topic_4_4 = autograder.topic_4.question_4_4_grader:main',
+            'test_topic_5_1 = autograder.topic_5.question_5_1_grader:main',
         ],
     },
 )
