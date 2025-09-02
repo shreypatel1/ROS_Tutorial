@@ -42,9 +42,15 @@ To setup your environment (one time step), run:
 curl -O https://raw.githubusercontent.com/Jeff300fang/MRG_Docker/tutorial/mrg_tutorial_startup.sh && bash mrg_tutorial_startup.sh
 ```
 
-You will be prompted to enter your github username. Please enter the github username 
+You will be prompted to enter your github username. Please enter the github username you forked the repositories with.
 
-Reboot your machine. Then to start, type
+Once the above command successfully finishes. Run
+
+```
+source ~/.bashrc && newgrp docker
+```
+
+Then to start, type
 
 ```
 start_tutorial_docker
