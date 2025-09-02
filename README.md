@@ -750,9 +750,248 @@ PID is a control algorithm that is a closed loop system (uses feedback) that rel
 
 Each of these terms has an associated "gain." This is a constant coefficient that controls the influence of each term. With a PID controller, you must adjust these constants to get a controller that responds well to the error at hand. This is often referred to as "tuning the controller." 
 
+Table below summarizes effects of increasing a parameter independently
+<img src="assets/PIDBlockDiagram.png" width="800"/>
+
 </details>
 
 ## Topic 6: Perception ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+<details>
+<summary><strong>6.0 Overview</strong></summary>
+
+Human cannot walk around fully blind. Same thing goes for robots. To see, Stinger has a simple web camera. Our job is to make use of the video stream input, and make sense of what we are seeing. You can do perception the traditional or modern way. Tesla's Full Self Driving system uses an end-to-end neural network to process visual inputs. For Stinger, a Raspberry Pi does not have the compute to do that. Using traditional computer vision method is the way to go. 
+
+Our main job here is to recognize the pair of buoy by: 
+- isolate the target from the background
+- make sure the isolation resemble the shape of the buoy
+- output location of the pair of gate
+Fortunately, OpenCV has libraries that can help us do that. 
+
+</details>
+
+<details>
+<summary><strong>6.1 Traditional Computer Vision</strong></summary>
+
+Student code is in `stinger_perception/detection.py`
+
+#### 6.1.a Understanding HSV
+
+To isolate the target from the background, we would first need to find the color mask. The image from the web camera is in RGB format. For example, [240,243,162] is the RGB code for the color butter yellow. The 3 numbers are in the range of 0 - 255. 
+
+However, butter yellow RGB color-code differs under different lighting conditions. That's where HSV model comes in. 
+- H (Hue): The base color
+- S (Saturation): The intensity of the color
+- V (Value): The brightness of the color
+
+Hue is expressed in degrees, from 0° to 360°. Approximately 0 is red, 120° is green, and so on.
+
+Saturation is expressed from 0 to 100%. At 0%, everything is basically gray. As it increases, the color becomes more solid. The percentage will get multipled by 255 
+
+Value is also expressed from 0 to 100%. At 0%, it is dark so color will appear black. As it increases, the color becomes more visible.
+
+Here is a picture for visualization (credit Dijin Dominic on Medium):
+<img src="assets/hsv.png" width="800"/>
+
+However , we are using the OpenCV library to convert RGB to HSV. The range is expressed differently. Do some google searches and find the upper and lower thershold of the color red and green in HSV format. We will need it in the next section for masking. 
+
+#### 6.1.b Masking
+
+Now that we have our color mask, we can use that range of value to isolate the object. 
+
+For the picture below, imagine the apple is red, and the trophy is green. This is what you have after applying masking. Look for the OpenCV library that helps you do that!
+
+<img src="assets/bnw_mask.jpg" width="800"/>
+
+#### 6.1.c Contours
+
+Contours are curves that join all the continuous points along the boundary. Just like the bottom left image, the green lines are outlining the contours of those shapes. Having these contours helps the robot get the (x, y)coordinates the object. Look for the OpenCV library that does that!
+
+<img src="assets/contours.png" width="800"/>
+
+#### 6.1.d Understanding and tuning pixel radius
+
+Sometimes the robot sees many "red" objects, that could be noises, and these could make their way into our candidate coordinates of the red buoy. We would want to filter them out by size, in theory, the buoy should only over a certain size. We figure out the size of the object by counting the pixels. This is a variable that you would need to tune. What is the minimium pixel value to pass as a buoy?
+
+<img src="assets/pixels.svg" width="800"/>
+
+</details>
 
 ## Topic 7: Autonomy ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+<details>
+<summary><strong>7.0 Overview</strong></summary>
+
+The Tug is trying to find and pass through a pair of red-and-green buoy gate. The `state` that the robot is in determines its behaviors. The primary states of the Tug is outline below. Our job is to define what needs to happen inside each state and what are the transition condition when moving from one state to another. 
+
+<img src="assets/states.svg" width="800"/>
+
+</details>
+
+<details>
+<summary><strong>7.1 Finite State Machine</strong></summary>
+
+Take a look at `stinger_autonomy/state.py`. This node handles robot state transition depending on the information from the perception package. The logic in this code is quite advanced, so feel free to just briefly skim over this node.
+
+Overall, the Tug is moving based on where the gate is located relative to itself. The angle that the Tug needs to turn is determined by the aligment of the percevied center of the gate to the actual center of the gate. 
+
+#### 7.1.a Transition Condition of Search State
+
+Read through the logic in the `search` function. Determine the transition condition to `approaching`. Think about how much misalignment are you willing to tolerate.
+
+#### 7.1.b Transition Condition of Approach State
+
+Read through the logic in the `approaching` function. Determine the transition condition to`passing through`. Think about what the boat will be perceving when it is almost through the gate.
+
+</details>
+
+## Topic 8: Setting up the Stinger Tug
+<details>
+<summary><strong>8.1 Configuring the Raspberry PI</strong></summary>
+
+The goal of this section is to setup the Pi on Stinger and make sure the sensors can communicate with the embedding computer.
+
+To start, you will need the following compute hardware:
+- Raspberry PI 4b
+- microSD card
+- A desktop monitor, mouse, and keyboard
+- Raspberry PI power supply
+- microHDMI to HDMI cable
+
+This section goes through configuring the OS by flashing the microSD card with Ubuntu 22.04 64-bit operating system, setting up ssh permission, and installing ROS2. 
+
+#### 8.1.a Operating system in the PI
+  1. Follow the instructions from the following link to flash Ubuntu 22.04 onto the microSD card: [https://ubuntu.com/download/raspberry-pi](url) Follow the `Desktop` tutorial. 
+  2. Insert the flashed microSD card into the Raspberry Pi and connect the Pi to a monitor, keyboard, and mouse. Power the Pi, and the monitor will turn on automatically. 
+  3. Connect to gtother following this website: [https://auth.lawn.gatech.edu/key/](url) [This would change if we get the travel router setup] Remember to connect to the same network for the laptop that will be used to communicate with the Tug.
+  4. Type `ifconfig` in the terminal and note the IP address.
+  5. To enable SSH on the Pi, enter the following in the terminal:
+      ```
+        sudo apt install raspi-config
+        sudo apt install openssh-server
+        sudo raspi-config
+      ```
+  6. After the UI pops up, select Interfacing Options, then `ssh`, click Yes. 
+  7. Also under Interfacing Options, select `I2C`, and enable it as well. Repeat and select `Serial Port`, disable console but enable hardware.
+
+#### 8.1.b SSH
+  1. On your laptop, type `ssh <username>@<ip address>` on the terminal. Make sure you can ping the PI before ssh.
+  2. After logging into the Pi, follow the link to install ROS2 Humble: [https://roboticsbackend.com/install-ros2-on-raspberry-pi/](url)
+  3. You should have installed `colcon` if you followed till the end of the tutorial. One more thing: `sudo apt install build-essential`
+  </details>
+
+<details>
+<summary><strong>8.2 Custom Setup in Pi</strong></summary>
+
+#### 8.2.a git CLI
+  You are on your laptop that is ssh-ed into the Stinger Raspberry Pi.
+
+  On the Raspberry Pi, set up Github CLI if you want conviently push your edits while field testing. You will need to log in to your account.
+  
+  Follow this link for setup: [https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian](url)
+
+  If you do not want you team member to commit to github on your behalf (since the group is sharing a Pi), remember to log out after using git. 
+
+#### 8.2.b Setup the Stinger Workspace
+  First, setup the workspace by typing this in the terminal: `mkdir {workspace name}/src`
+
+  (inside src) `git clone -b {branch name} --single-branch https://github.com/gt-marine-robotics-group/stinger-software.git`
+
+  Navigate to the directory where the `requirements.txt` is located. This will install all the python library is that needed: `pip3 install -r requirements.txt`
+
+  Follow `INSTALL.md` to make sure all the install from source dependencies are installed in Pi. 
+
+  Before running `colcon build`, remember to install all dependencies using `rosdep install --from-paths src -y --ignore-src`
+
+#### 8.2.c Other setup that makes your life easier
+  In the terminal, do the following so the terminal source ROS every time it starts. 
+      ```
+      nano ~/.bashrc
+      source /opt/ros/humble/setup.bash
+      ```
+      Add `source /home/username/{workspace}/install/setup.bash` to the script
+  - tmux (You don't need tmux if you prefer terminal in VSCode, see next step)
+  - Enable editing in VSCode while in ssh
+  - Use a router instead of dealing with eduroam
+</details>
+
+<details>
+<summary><strong>8.3 Stinger Firmware</strong></summary>
+
+#### 8.3.a IMU
+IMU communicates with the Pi via I2C protocal. Make sure to follow the steps below to ensure successful transfer of data. 
+
+Topic name: `/stinger/imu/data`
+
+Node name: `imu-node` (will not directly run this node, but you can run this independently if you want to check IMU data.) 
+
+```
+    sudo groupadd i2c
+    sudo usermod -aG i2c tug1
+    sudo chmod 666 /dev/i2c-1
+    sudo nano /etc/udev/rules.d/99-i2c.rules
+    add line: \textit{SUBSYSTEM=="i2c-dev", GROUP="i2c", MODE="0660"}
+    sudo udevadm control --reload-rules
+    sudo reboot
+```
+
+Check I2C permission is granted: `ls -l /dev/i2c-1` You should see something similar `>> crw-rw---- 1 root i2c 89, 1 Feb 8 10:20 /dev/i2c-1`
+
+#### 8.3.b GPS
+The GPS sends data to Pi via serial port. To ensure necessary privilege is granted, follow the steps below to get started. Refer to [https://receiverhelp.trimble.com/alloy-gnss/en-us/NMEA-0183messages_MessageOverview.html](url) for more information on GPS formatting.
+
+Topic name: `/stinger/gps/fix`
+
+Node name: `gps-node` (will not directly run this node, but you can run this independently if you want to check GPS data.) 
+    
+Make sure you have enabled serial port data transmission following step 4 in Sec \ref{pi-setup}
+    `sudo chmod 666 /dev/serial0`
+
+Check GPS Data Format - `ls /dev/serial*`
+    `sudo cat /dev/serial0` (change serial port if needed) -- you will see NMEA messages printing on the terminal if GPS is configure correctly. Likely the information needed is `GPGGA`.
+    
+Adjust the code in GPS node if needed.
+
+#### 8.3.c Localization
+Localization is done by fusing IMU and GPS data using Extended Kalman Filter. Check out [https://docs.ros.org/en/melodic/api/robot_localization/html/index.html](url) for more information on how the data are fused together. Using both `ekf_filtered_node` and `navsat_transform_node` at the same time. Remember, drifting is inevitable, edit the `ekf.yaml` file in `/stinger_bringup/config` if needed.
+
+Topic name: `/odometry/filtered`
+
+Node name: `ekf_filtered_node`, `navsat_transform_node`
+
+Note that the data flow should be:
+
+- GPS data (`/stinger/gps/fix`) + IMU data (`/stinger/imu/data`) → NavSat transform node → `/odometry/gps`
+
+- `/odometry/gps` + IMU data (`/stinger/imu/data`) → EKF → `/odometry/filtered`
+
+#### 8.3.d Camera
+Camera communicates with the Pi via USB. Check which port the camera is sending data through. The stinger is communicating with the camera via customize node, you can refer to this Medium post for camera drivers that are available out there: [https://jeffzzq.medium.com/ros2-image-pipeline-tutorial-3b18903e7329](url)
+
+Topic name: `/stinger/camera_0/image_raw`
+
+Node name: `camera-node`
+- `sudo v412-ctl --list-devices` - check which channel the image is coming in, typically is 0
+- `sudo chmod 666 /dev/video0` - to allow permission. Assuming video0 is the camera stream, if not, remember to change to correct channel.
+- `rqt` - visualize it in ROS2 (make sure the node is running)
+
+#### 8.3.e LiDAR
+An external driver is used to communicate between LiDAR and ROS2. Clone the driver here: [https://github.com/Slamtec/sllidar_ros2/tree/main?tab=readme-ov-file#compile--install-sllidar_ros2-package](url)
+
+Topic name: `/stinger/laser/scan`
+
+Node name: `sllidar_node`
+- Remember to navigate to `/src` before doing git clone
+- To visualize LiDAR scans, type `ros2 launch sllidar_ros2 view_sllidar_c1_launch.py` in the terminal. Remember RPLIDAR C1 LiDAR is being used. You will need RViz2 for visualization. 
+- If visualization is not the focus and only the topic `/stinger/laser/scan` is concerned, run `ros2 launch sllidar_ros2 sllidar_c1_launch.py` instead.
+
+#### 8.3.f Motors
+The motor node controls two ESCs using pigpio, based on the thrust commands from autonomy. The thrust values are turned into PWM pulse width that drives the port and starboard motor. 
+
+Topic name: `/stinger/thruster_port/cmd_thrust`; `/stinger/thruster_stbd/cmd_thrust`
+
+Node name: `motor-node`
+- Before running the node, remember to initialize the gpio module by running `sudo pigpiod`
+- You should hear a beep sound if the motor is connected correctly and ready to run.
+
+</details>
+
 
