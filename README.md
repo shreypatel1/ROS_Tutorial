@@ -35,6 +35,14 @@ ssh <user_id>@<cluster_ip>
 
 ### Personal Computer 
 
+#### Windows
+Open PowerShell or Windows Command Prompt in admin mode, run:
+```
+wsl --install
+```
+
+Launch Ubuntu by running `wsl` in PowerShell.
+
 #### Ubuntu
 To setup your environment (one time step), run:
 
@@ -61,8 +69,6 @@ Once inside the docker container, type:
 ```
 tmuxp load /root/.tmuxp/tmuxp_config.yaml
 ```
-
-#### Windows
 
 ## Topic 0: Building + Testing
 Each topic will give a rough description of the task and there will be an associated file in ```ROS_Tutorial/student_code/student_code/topic_{topic #}/question_{topic #}_{section #}.py```. So for example, if you were working on ```Topic 1.2```, you would be accessing the file ```ROS_Tutorial/student_code/student_code/topic_1/question_1_2.py```
