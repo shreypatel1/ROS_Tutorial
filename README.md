@@ -35,6 +35,27 @@ ssh <user_id>@<cluster_ip>
 
 ### Personal Computer 
 
+#### Mac
+To setup your environment (one time step), run:
+
+```
+curl -v https://raw.githubusercontent.com/Jeff300fang/MRG_Docker/tutorial/mrg_tutorial_startup_mac.sh | bash
+```
+
+You will be prompted to enter your github username. Please enter the github username 
+
+Reboot your machine. Then to start, type
+
+```
+start_tutorial_docker
+```
+
+Once inside the docker container, type:
+
+```
+tmuxp load /root/.tmuxp/tmuxp_config.yaml
+```
+
 #### Windows
 Open PowerShell or Windows Command Prompt in admin mode, run:
 ```
@@ -42,6 +63,8 @@ wsl --install
 ```
 
 Launch Ubuntu by running `wsl` in PowerShell.
+
+Follow the steps in Ubuntu.
 
 #### Ubuntu
 To setup your environment (one time step), run:
