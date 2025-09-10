@@ -39,7 +39,7 @@ ssh <user_id>@<cluster_ip>
 To setup your environment (one time step), run:
 
 ```
-curl -v https://raw.githubusercontent.com/Jeff300fang/MRG_Docker/tutorial/mrg_tutorial_startup_mac.sh | bash
+curl -O https://raw.githubusercontent.com/Jeff300fang/MRG_Docker/tutorial/mrg_tutorial_startup_mac.sh && bash mrg_tutorial_startup_mac.sh
 ```
 
 You will be prompted to enter your github username. Please enter the github username 
