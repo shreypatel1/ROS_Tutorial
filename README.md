@@ -25,7 +25,7 @@ If prompted, name the repository `stinger-software` (or whatever the original re
 Then click `Create Fork`. Repeat this process for the `ROS_Tutorial` repo as well.
 
 
-## Environment Setup ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+## Environment Setup 
 ### MRG Cluster
 If you have access to the MRG Cluster, you can entire your enivornment through ssh. You will need your `user_id`, `password`, `cluster_ip`. To access, open a terminal and run:
 
@@ -512,7 +512,7 @@ Two other very important coordinate frames are the `odom` and `map` frame. The `
 
 </details>
 
-## Topic 4: Localization ![WIP](https://img.shields.io/badge/NPR-Needs_Proof_Reading-yellow)
+## Topic 4: Localization
 
 <details> <summary> <strong> 4.0 Localization </strong></summary>
 
@@ -858,7 +858,7 @@ If everything looks good, congratulations! You just localized the stinger-tug.
 
 </details>
 
-## Topic 5: Control ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+## Topic 5: Control
 
 <details>
 <summary><strong>5.0 Overview</strong></summary>
@@ -918,7 +918,7 @@ Table below summarizes effects of increasing a parameter independently
 
 </details>
 
-## Topic 6: Perception ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+## Topic 6: Perception
 <details>
 <summary><strong>6.0 Overview</strong></summary>
 
@@ -987,7 +987,7 @@ Sometimes the robot sees many "red" objects, that could be noises, and these cou
 
 </details>
 
-## Topic 7: Autonomy ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
+## Topic 7: Autonomy
 <details>
 <summary><strong>7.0 Overview</strong></summary>
 
