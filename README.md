@@ -33,10 +33,13 @@ If you have access to the MRG Cluster, you can entire your enivornment through s
 ssh <user_id>@<cluster_ip>
 ```
 
-### Personal Computer 
+### Personal Computer Setup
 
-#### Mac
+<details> <summary><strong>Mac</strong></summary>
+
 First, install Docker Desktop. [Installation Instructions](https://docs.docker.com/desktop/setup/install/mac-install/). Make sure that any time you want to work, you have Docker Desktop running in the background.
+
+**Note:** You will have to select the correct installation based on your macbook chip set (Intel/ Apple Silicone). If you have a M1, M2, M3, etc macbook, you are Apple Silicone.
 
 To setup your environment (one time step), run:
 
@@ -46,19 +49,14 @@ curl -O https://raw.githubusercontent.com/Jeff300fang/MRG_Docker/tutorial/mrg_tu
 
 You will be prompted to enter your github username. Please enter the github username 
 
-Reboot your machine. Then to start, type
+Reboot your machine.
 
-```
-start_tutorial_docker
-```
+</details>
 
-Once inside the docker container, type:
+<details> <summary> <strong> Windows</strong></summary>
 
-```
-tmuxp load /root/.tmuxp/tmuxp_config.yaml
-```
+<hr>
 
-#### Windows
 Open PowerShell or Windows Command Prompt in admin mode, run:
 ```
 wsl --install
@@ -66,9 +64,16 @@ wsl --install
 
 Launch Ubuntu by running `wsl` in PowerShell.
 
-Follow the steps in Ubuntu.
+Then, follow the steps in the Ubuntu setup guide.
 
-#### Ubuntu
+<hr>
+
+</details>
+
+<details> <summary> <strong> Ubuntu</strong></summary>
+
+<hr>
+
 To setup your environment (one time step), run:
 
 ```
@@ -82,20 +87,65 @@ Once the above command successfully finishes. Run
 ```
 source ~/.bashrc && newgrp docker
 ```
+<hr>
 
-Then to start, type
+</details>
+
+## Topic 0: Editing, Building, Testing Instructions
+
+<details>  <summary> <strong> 0.1 Running the Container and GUI</strong></summary>
+
+<hr>
+
+To start the docker container, run
 
 ```
 start_tutorial_docker
 ```
 
-Once inside the docker container, type:
+Then to bootstrap the workspace, run
 
 ```
-tmuxp load /root/.tmuxp/tmuxp_config.yaml
+bootstrap_ws
 ```
 
-## Topic 0: Building + Testing
+This command only needs to be run for the first time OR when new packages are introduced OR when the docker container is rebuilt.
+
+To access the container's GUI, open `localhost:6080` in your local browser.
+
+To start a 6 pane terminal (recommended), run `tmuxp load /root/.tmuxp/tmuxp_config.yaml`. To exit, run `tmux kill-session`
+
+<hr>
+
+</details>
+
+<details>
+<summary> <strong> 0.2 Editing Code</strong></summary>
+
+<hr>
+
+We **highly** recommend using Visual Studio Code (VSCode) for all coding. All senior members will be familiar with working in VSCode. The following instructions will assume that you are using VSCode.
+
+If you haven't already, install VSCode. [Instructions Here](https://code.visualstudio.com/). Make sure your container is running. See **Section 0.1** if you do not. Then, open VSCode.
+
+Click the extensions page on the left hand side and ensure Docker is installed. If not, install it.
+
+Then, click the blue icon in the bottom left corner. It should bring up this page.
+
+Click on attach to running container. You should see something like this.
+
+Click `/mrg_tutorial`. If prompted to open a foldder, select mrg_ws -> src. You should have something like this (without the answer folders).
+
+You can now click through each folder and see each file.
+
+<hr>
+
+</details>
+
+<details> <summary> <strong> 0.3 Building and Autograder Testing </strong></summary>
+
+<hr>
+
 Each topic will give a rough description of the task and there will be an associated file in ```ROS_Tutorial/student_code/student_code/topic_{topic #}/question_{topic #}_{section #}.py```. So for example, if you were working on ```Topic 1.2```, you would be accessing the file ```ROS_Tutorial/student_code/student_code/topic_1/question_1_2.py```
 
 Each section will also have an associated autograder. At any point you want to test your code, you will need to run these commands in your workspace directory. For this tutorial, the workspace directory refers to the folder location of ```ROS_Tutorial/```.
@@ -110,9 +160,15 @@ For example, to run the tests for ```topic 1.2```, you should run `ros2 run auto
 
 **Note:** Building your code is super important for ensuring that your latest changes are reflected when you execute your code.
 
+<hr>
+
+</details>
+
 ## Topic 1: ROS2 Basics
 <details>
 <summary><strong>1.1 Understanding Nodes and Topics</strong></summary>
+
+<hr>
 
 The goal of this section is to familiarize yourself with the concept of nodes and topics. We will be using ROS2 CLI (Command Line Interface) throughout this section.
 
@@ -142,10 +198,15 @@ Sometimes you may want to find information about a topic. You can use `ros2 topi
 When debugging, it sometimes important to check out what messages are being published to a topic. A useful command for this is `ros2 topic echo TOPIC_NAME`. Change the value of `string_message` to the string that is being published to the topic `/tutorial/StringPub`. 
 
 **Note:** do not include ```"data: "``` in your answer.
+
+<hr>
+
 </details>
 
 <details>
 <summary><strong>1.2 Coding Subscriber and Publishers</strong></summary>
+
+<hr>
 
 The goal of this section is to understand what a publisher and subscriber is within ROS2 and how to create them. Please look at file `question1_2.py`. You may run ```ros2 run helpers node_q_1_2.py``` to debug your answer.
 
@@ -180,18 +241,26 @@ For this question, access the string field from the variable `msg` and store it 
 #### 1.2.d Publishing Data
 For this question, take the value from `topic_string_message` and append the string ` ROS` (don't forget the space). The new string should look like `Hello World! ROS`. Then use the variable `new_message` to publish this new string using the publisher from **Q1.1.b**.
 
+<hr>
+
 </details>
 
 <details>
 <summary><strong>1.3 Counter Node</strong></summary>
 
+<hr>
+
 This question is designed to test your knowledge on this topic. Take a look at `question_1_3.py`. The goal of this node is to publish to a topic called `/tutorial/counter25` with numbers of type `Int32` starting from 0 incrementing to 25 inclusive. A rough outline has been provided for you. Fill in the blanks to complete this question.
 
 **HINT:** It may be useful to debug your node using `ros2 run student_code question_1_3` and `ros2 topic echo /tutorial/counter25`.
+
+<hr>
 </details>
 
 <details>
 <summary><strong>1.4 Services</strong></summary>
+
+<hr>
 
 **Services** are another type of communication mechanism. It consists of a **client** that sends a request to a **service**, which then returns a response. 
 Some examples of where services may be used are:
@@ -221,6 +290,8 @@ Go to the file `question_1_4_service.py`. Complete the `handle_get_buoy_location
 #### 1.4.d Sending a request to a Service
 
 Go to the file `question_1_4_client.py`. Correctly request a `yellow_buoy` from the service. 
+
+<hr>
 </details>
 
 ## Topic 2: Simulation + Useful Tools
@@ -230,6 +301,8 @@ Go to the file `question_1_4_client.py`. Correctly request a `yellow_buoy` from 
 <details>
 <summary><strong>2.1 Using VNC</strong></summary>
 
+<hr>
+
 **VNC (Virtual Network Computing)** is a graphical desktop-sharing system that allows you to access another desktop's enviornment over a network.
 
 In our case, we will be accessing the docker container's generated desktop environment. To do so, go into your web browser and type `localhost:6080`. This should bring you to a webpage that looks something like the below image.
@@ -237,11 +310,14 @@ In our case, we will be accessing the docker container's generated desktop envir
 <img src="assets/vnc_weblanding.png" alt="VNC web landing" width="800"/>
 
 Press connect and you should have access to your docker container's VNC.
+
+<hr>
 </details>
 
 <details>
-
 <summary><strong>2.2 Running Simulation</strong></summary>
+
+<hr>
 
 In your terminal, run `ros2 launch stinger_bringup vehicle_sim.launch.py`. You should see something along the following:
 
@@ -258,11 +334,13 @@ ros2 launch stinger_bringup vehicle_sim.launch.py world:=secondary.world
 ```
 
 All of the available worlds can be found in `stinger-software/stinger_sim/worlds`.
-
+<hr>
 </details>
 
 <details>
 <summary><strong>2.3 rqt_image_view</strong></summary>
+
+<hr>
 
 **rqt_image_view** is a tool used to see images being published over topics.
 
@@ -282,10 +360,14 @@ Then select the camera topic you want to visualize. In our case, select `/stinge
 
 <img src="assets/rqt_image_view_image.png" alt="Image rqt_image_view" width="800"/>
 
+<hr>
+
 </details>
 
 <details>
 <summary><strong>2.4 Rviz2</strong></summary>
+
+<hr>
 
 **rivz2** is a 3D visualization tool for various parts of the robot that include sensor data, transformations, markers, robot models, etc.
 
@@ -317,11 +399,8 @@ Now, you should see some extremely small red dots in the grid. To make them more
 
 Now you should be able to see these red squares. We will learn more about what a Lidar sensor is in a later section.
 
-</details>
 
-<details>
-
-<summary><strong>2.5 rqt</strong></summary>
+<hr>
 
 </details>
 
@@ -331,6 +410,8 @@ Now you should be able to see these red squares. We will learn more about what a
 
 <summary><strong>3.1 Unit Conventions</strong></summary>
 
+<hr>
+
 **Distance:** meters (m)<br>
 **Angle:** radians (rad)<br>
 **Time:** seconds (s)
@@ -338,6 +419,8 @@ Now you should be able to see these red squares. We will learn more about what a
 </details>
 
 <details>
+
+<hr>
 
 <summary><strong>3.2 Coordinate Conventions</strong></summary>
 
@@ -380,10 +463,14 @@ Again, in a terminal, run `ros2 launch stinger_bringup vehicle_sim.launch.py wor
 
 **Hint** Use your answers from question `3.2.a` and `np.arctan2`.
 
+<hr>
+
 </details>
 
 <details>
 <summary><strong>3.3 TF Frame Conventions</strong></summary>
+
+<hr>
 
 TF (transform) Frames define how different components move relative to each other. 
 
@@ -411,23 +498,35 @@ Notice that the camera frame falls infront of the `base_link` frame. This is bec
 
 Two other very important coordinate frames are the `odom` and `map` frame. The `odom` frame is typically used to represent where the robot thinks it has moved to w.r.t where it started. The odom frame is always centered to where the robot started. The `map` frame is typically used to represent the robot's position in the environment and is supposed to be a global fixed frame. The `map` frame does not have to be centered to where the robot started.
 
+<hr>
+
 </details>
 
 ## Topic 4: Localization ![WIP](https://img.shields.io/badge/NPR-Needs_Proof_Reading-yellow)
 
 <details> <summary> <strong> 4.0 Localization </strong></summary>
 
+<hr>
+
 In the context of robotics, localization refers to the process by which a robot determines its pose (position and orientation) within its environment. The robot may use sensors such as an IMU, GPS, or cameras to do so.
+
+<hr>
 
 </details>
 
 <details> <summary> <strong> 4.1 Odometry </strong> </summary>
 
+<hr>
+
 When dealing with localization, we commonly use the [Odometry Message Type ](https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html) to encapsulate our localization information. This message contains a `pose` (position) and a `twist` (velocity) field with a covariance matrix. The covariance matrix represents the uncertainty in our estimation for that field. So for example, a high covariance for our `pose` would mean that we have high uncertainty about the accuracy of our estimated position. We will see the covariance matrix's importance in a later section.
+
+<hr>
 
 </details>
 
 <details> <summary> <strong> 4.2 IMU</strong></summary>
+
+<hr>
 
 An Inertial Measurement Unit (IMU) is a sensor used to measure a robot's acceleration (accelerometer), angular velocity (gyroscope), and orientation (magnetometer). They usually look something like the following.
 
@@ -540,9 +639,13 @@ Notice that as the stinger turns left, the yaw positively increases, which corre
 
 The last part of the IMU message is the angular velocity. There are three values, representing the angular velocity in the `x`, `y`, and `z` direction in radians/second.
 
+<hr>
+
 </details>
 
 <details><summary><strong>4.3 Dead Reckoning</strong></summary>
+
+<hr>
 
 Dead reckoning is a navigation technique used to localize a vehicle by calculating its position by tracking speed, direction, and time traveled.
 
@@ -617,9 +720,13 @@ You may also find it useful to use `plotjuggler` to visualize your output.
 
 **Note:** IMU's are rarely solely used to localize a vehicle. This is because IMU's typically experience something called IMU drift, where over time, the IMU will accumulate error that gets exponentiated through integration in the velocity and position estimates. The reason it works in simulation is because the IMU's are almost ideal and errorless.
 
+<hr>
+
 </details>
 
 <details> <summary> <strong> 4.4 robot_localization</strong></summary>
+
+<hr>
 
 #### 4.4.a Integrating IMU in robot_localization
 
@@ -689,9 +796,13 @@ Publish commands to the motors using `rqt` and take note of which odometry field
 
 Again, take a look at `stinger-software/stinger_bringup/config/ekf.yaml`. Following the structure of the IMU config, add the config for the GPS with only the relevant odometry fields.
 
+<hr>
+
 </details>
 
 <details> <summary> <strong> 4.5 Localization Wrap-up</strong></summary>
+
+<hr>
 
 Take a look at `stinger_bringup/launch/vehicle_sim.launch.py`. Follow the instructions and uncomment the code block.
 
@@ -733,12 +844,16 @@ Now, using rqt, publish anything to the motors. You should see that the two curv
 
 If everything looks good, congratulations! You just localized the stinger-tug.
 
+<hr>
+
 </details>
 
 ## Topic 5: Control ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 
 <details>
 <summary><strong>5.0 Overview</strong></summary>
+
+<hr>
 
 You may choose to skip over this section. Those seeking a deeper understanding may want to go through this section. Very generally, Control refers to how we command the robot to move in order to accomplish something. 
 
@@ -752,10 +867,15 @@ Let's walk through a real life example. Say you're a driving your car and you wa
 The main idea is that commands cascade from the top-down. For example, the high level controller provides a path to the mid level controller. Then the mid level controller provides a velocity to the low level controller to follow the path. Then the low level controller acts to actually move the robot.
 
 In this topic, we will be covering **Low Level Control** and **Mid Level Control**.
+
+<hr>
+
 </details>
 
 <details>
 <summary><strong>5.1 Low Level Control</strong></summary>
+
+<hr>
 
 #### 5.1.a Throttle Controller
 
@@ -784,11 +904,15 @@ Each of these terms has an associated "gain." This is a constant coefficient tha
 Table below summarizes effects of increasing a parameter independently
 <img src="assets/PIDBlockDiagram.png" width="800"/>
 
+<hr>
+
 </details>
 
 ## Topic 6: Perception ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 <details>
 <summary><strong>6.0 Overview</strong></summary>
+
+<hr>
 
 Human cannot walk around fully blind. Same thing goes for robots. To see, Stinger has a simple web camera. Our job is to make use of the video stream input, and make sense of what we are seeing. You can do perception the traditional or modern way. Tesla's Full Self Driving system uses an end-to-end neural network to process visual inputs. For Stinger, a Raspberry Pi does not have the compute to do that. Using traditional computer vision method is the way to go. 
 
@@ -798,10 +922,14 @@ Our main job here is to recognize the pair of buoy by:
 - output location of the pair of gate
 Fortunately, OpenCV has libraries that can help us do that. 
 
+<hr>
+
 </details>
 
 <details>
 <summary><strong>6.1 Traditional Computer Vision</strong></summary>
+
+<hr>
 
 Student code is in `stinger_perception/detection.py`
 
@@ -845,20 +973,28 @@ Sometimes the robot sees many "red" objects, that could be noises, and these cou
 
 <img src="assets/pixels.svg" width="800"/>
 
+<hr>
+
 </details>
 
 ## Topic 7: Autonomy ![WIP](https://img.shields.io/badge/WIP-Work_in_Progress-yellow)
 <details>
 <summary><strong>7.0 Overview</strong></summary>
 
+<hr>
+
 The Tug is trying to find and pass through a pair of red-and-green buoy gate. The `state` that the robot is in determines its behaviors. The primary states of the Tug is outline below. Our job is to define what needs to happen inside each state and what are the transition condition when moving from one state to another. 
 
 <img src="assets/states.svg" width="800"/>
+
+<hr>
 
 </details>
 
 <details>
 <summary><strong>7.1 Finite State Machine</strong></summary>
+
+<hr>
 
 Take a look at `stinger_autonomy/state.py`. This node handles robot state transition depending on the information from the perception package. The logic in this code is quite advanced, so feel free to just briefly skim over this node.
 
@@ -872,11 +1008,15 @@ Read through the logic in the `search` function. Determine the transition condit
 
 Read through the logic in the `approaching` function. Determine the transition condition to`passing through`. Think about what the boat will be perceving when it is almost through the gate.
 
+<hr>
+
 </details>
 
 ## Topic 8: Setting up the Stinger Tug
 <details>
 <summary><strong>8.1 Configuring the Raspberry PI</strong></summary>
+
+<hr>
 
 The goal of this section is to setup the Pi on Stinger and make sure the sensors can communicate with the embedding computer.
 
@@ -907,10 +1047,15 @@ This section goes through configuring the OS by flashing the microSD card with U
   1. On your laptop, type `ssh <username>@<ip address>` on the terminal. Make sure you can ping the PI before ssh.
   2. After logging into the Pi, follow the link to install ROS2 Humble: [https://roboticsbackend.com/install-ros2-on-raspberry-pi/](url)
   3. You should have installed `colcon` if you followed till the end of the tutorial. One more thing: `sudo apt install build-essential`
-  </details>
+
+<hr>
+
+</details>
 
 <details>
 <summary><strong>8.2 Custom Setup in Pi</strong></summary>
+
+<hr>
 
 #### 8.2.a git CLI
   You are on your laptop that is ssh-ed into the Stinger Raspberry Pi.
@@ -942,10 +1087,15 @@ This section goes through configuring the OS by flashing the microSD card with U
   - tmux (You don't need tmux if you prefer terminal in VSCode, see next step)
   - Enable editing in VSCode while in ssh
   - Use a router instead of dealing with eduroam
+
+<hr>
+
 </details>
 
 <details>
 <summary><strong>8.3 Stinger Firmware</strong></summary>
+
+<hr>
 
 #### 8.3.a IMU
 IMU communicates with the Pi via I2C protocal. Make sure to follow the steps below to ensure successful transfer of data. 
@@ -1023,6 +1173,6 @@ Node name: `motor-node`
 - Before running the node, remember to initialize the gpio module by running `sudo pigpiod`
 - You should hear a beep sound if the motor is connected correctly and ready to run.
 
+<hr>
+
 </details>
-
-
