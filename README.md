@@ -36,6 +36,8 @@ ssh <user_id>@<cluster_ip>
 ### Personal Computer 
 
 #### Mac
+First, install Docker Desktop. [Installation Instructions](https://docs.docker.com/desktop/setup/install/mac-install/). Make sure that any time you want to work, you have Docker Desktop running in the background.
+
 To setup your environment (one time step), run:
 
 ```
