@@ -64,6 +64,8 @@ wsl --install
 
 Launch Ubuntu by running `wsl` in PowerShell.
 
+For some computers, you may need to manually install Docker Desktop. [Installation Instructions](https://docs.docker.com/desktop/setup/install/windows-install/). If you are unsure if you need it, we recommend to install it anyways.
+
 Then, follow the steps in the Ubuntu setup guide.
 
 <hr>
