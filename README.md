@@ -5,7 +5,6 @@ In this repo, you will learn the basics of ROS2 and robotics fundamentals. The g
 - **Some base knowledge of coding/python** If you are not yet familiar with python, you can still attempt to go through this tutorial but it is highly recommended that you learn python first. Some great tutorials are:
   - https://www.w3schools.com/python/
   - https://docs.python.org/3/tutorial/index.html
-- Access to your MRG Cluster Virtual Machine
 - Basics of Navigating Linux
 
 ## Repo Setup
@@ -26,12 +25,6 @@ Then click `Create Fork`. Repeat this process for the `ROS_Tutorial` repo as wel
 
 
 ## Environment Setup 
-### MRG Cluster
-If you have access to the MRG Cluster, you can entire your enivornment through ssh. You will need your `user_id`, `password`, `cluster_ip`. To access, open a terminal and run:
-
-```
-ssh <user_id>@<cluster_ip>
-```
 
 ### Personal Computer Setup
 
