@@ -1035,18 +1035,23 @@ To start, you will need the following compute hardware:
 This section goes through configuring the OS by flashing the microSD card with Ubuntu 22.04 64-bit operating system, setting up ssh permission, and installing ROS2. 
 
 #### 8.1.a Operating system in the PI
-  1. Follow the instructions from the following link to flash Ubuntu 22.04 onto the microSD card: [https://ubuntu.com/download/raspberry-pi](url) Follow the `Desktop` tutorial. 
+  1. Follow the instructions from the following link to flash Ubuntu 22.04 onto the microSD card: [https://ubuntu.com/download/raspberry-pi](url). Follow the `Desktop` tutorial. You need your laptop to do this.
   2. Insert the flashed microSD card into the Raspberry Pi and connect the Pi to a monitor, keyboard, and mouse. Power the Pi, and the monitor will turn on automatically. 
-  3. Connect to gtother following this website: [https://auth.lawn.gatech.edu/key/](url) [This would change if we get the travel router setup] Remember to connect to the same network for the laptop that will be used to communicate with the Tug.
-  4. Type `ifconfig` in the terminal and note the IP address.
-  5. To enable SSH on the Pi, enter the following in the terminal:
+  3. Set the username to `tugxx`, with `xx` be you team number. If you are team 5, it will be `tug05`. Please set the password to `boats0519`.
+  4. To give the tug a static IP address, we need to be talking to a travel router that talks to GTother (for example). We have router GLiNet AX3000 in lab. So basically, `GTother` (if you needs internet) -> `Router` -> both your laptop and tug is connected to `Router` -> can `ssh`
+  5. The router is set up for you already. Connect to wifi on your laptop: `GL-MT3000-0a9`  OR  `GL-MT3000-0a9-5G`
+  - Password: `boats0519`
+  6. Admin password for logging in from the web (DNS should be the correct IP): `@boats0519`
+  7. If steps 4-6 are too much for you right now - just connect to gtother following this website: [https://auth.lawn.gatech.edu/key/](url)
+  8. Type `ifconfig` in the terminal and note the IP address.
+  9. To enable SSH on the Pi, enter the following in the terminal:
       ```
         sudo apt install raspi-config
         sudo apt install openssh-server
         sudo raspi-config
       ```
-  6. After the UI pops up, select Interfacing Options, then `ssh`, click Yes. 
-  7. Also under Interfacing Options, select `I2C`, and enable it as well. Repeat and select `Serial Port`, disable console but enable hardware.
+  10. After the UI pops up, select Interfacing Options, then `ssh`, click Yes. 
+  11. Also under Interfacing Options, select `I2C`, and enable it as well. Repeat and select `Serial Port`, disable console but enable hardware.
 
 #### 8.1.b SSH
   1. On your laptop, type `ssh <username>@<ip address>` on the terminal. Make sure you can ping the PI before ssh.
