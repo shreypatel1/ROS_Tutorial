@@ -1085,6 +1085,8 @@ This section goes through configuring the OS by flashing the microSD card with U
 
   Follow `INSTALL.md` to make sure all the install from source dependencies are installed in Pi. 
 
+  Run `source /opt/ros/humble/setup.bash` at your workspace directory.
+
   Before running `colcon build`, remember to install all dependencies using `rosdep install --from-paths src -y --ignore-src`
 
 #### 8.2.c Other setup that makes your life easier
