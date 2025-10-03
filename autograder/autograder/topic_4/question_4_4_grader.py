@@ -9,6 +9,8 @@ class Question_4_4_Grader(Node):
         self.declare_parameter('imu0_config', [False])
         self.declare_parameter('odom0_config', [False])
         ekf_imu_params = self.get_parameter('imu0_config').get_parameter_value().bool_array_value
+        # log imu params for debugging
+        self.get_logger().info(f'IMU Params: {ekf_imu_params}')
         ekf_gps_params = self.get_parameter('odom0_config').get_parameter_value().bool_array_value
         self.verify_4_4_a(ekf_imu_params)
         self.verify_4_4_b()
