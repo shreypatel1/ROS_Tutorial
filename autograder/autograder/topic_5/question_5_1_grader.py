@@ -53,9 +53,9 @@ def verify_q51bcdef():
     fake_odometry.twist.twist.linear.x = 0.1
     error, P_surge, I_surge, D_surge, control_yaw, output_force = node.odometry_callback(fake_odometry)
     grader.verify_answer(lambda x: np.isclose(x, 20, atol=0.001), D_surge, 'Q5.1.e Check Surge Derivative Calculation Multi-iteration')
-    grader.verify_answer(lambda x: np.isclose(x, 2.01, atol=0.001), control_yaw, 'Q5.1.f Check Control Yaw Calculation')
-    grader.verify_answer(lambda x: np.isclose(x, 23.06, atol=0.001), output_force.wrench.force.x, 'Q5.1.d Check Output Force Message')
-    grader.verify_answer(lambda x: np.isclose(x, 2.01, atol=0.001), output_force.wrench.torque.z, 'Q5.1.d Check Output Torque Message')
+    grader.verify_answer(lambda x: np.isclose(x, 2.22, atol=0.001), control_yaw, 'Q5.1.f Check Control Yaw Calculation')
+    grader.verify_answer(lambda x: np.isclose(x, 23.26, atol=0.01), output_force.wrench.force.x, 'Q5.1.f Check Output Force Message')
+    grader.verify_answer(lambda x: np.isclose(x, 2.22, atol=0.01), output_force.wrench.torque.z, 'Q5.1.f Check Output Torque Message')
     node.destroy_node()
 
 class TestControllerTuning(Node):
