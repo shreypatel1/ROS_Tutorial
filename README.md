@@ -857,59 +857,103 @@ If everything looks good, congratulations! You just localized the stinger-tug.
 
 <details>
 <summary><strong>5.0 Overview</strong></summary>
-
 <hr>
 
-You may choose to skip over this section. Those seeking a deeper understanding may want to go through this section. Very generally, Control refers to how we command the robot to move in order to accomplish something. 
+Control refers to how our robot should command its motors to achieve a desired motion (i.e. going forward in a straight line). In this section, we'll cover the most fundamental **feedback** controller called PID. A feedback controller uses sensor measurements of the robot’s motion to continuously adjust its motor commands, keeping the robot’s actual behavior close to the desired one.
 
-There are three main levels of control. <br>
-**Low Level Control:** This involves sending commands (rotational speeds) to the motors to make the robot achieve a specific target velocity. <br>
-**Mid Level Control:** This involves commanding velocities to make the robot follow a path. <br>
-**High Level Control:** This involves creating a path that the robot should follow. This is often coupled with autonomy.
+For example, say we wanted to go 1 m/s forward. From the previous section, we coded a robust way to localize our stinger tug. With this information, we can constantly see our current velocity. Say we try to command our motors to push us forward with 1 N. From our localization, we see that we are only going 0.3 m/s. Since we are pretty far off from our desired velocity (0.7 m/s below our desired), we decide to really increase our throttle and instead command 2 N of force to our motors. Again, from our localization we see that we are now going 0.9 m/s. This time, we're only off by 0.1 m/s, so we slightly increase our throttle to 2.3 N of force. This is the backing idea behind a PID feedback controller, where you apply a motor thrust, compare the current velocity with the desired velocity, and adjust our commanded motor thrust based on this difference.
 
-Let's walk through a real life example. Say you're a driving your car and you want to get from your apartment to your friend's house. You may use Google Maps to get directions to their house. In this scenario Google Maps is the **High Level Controller** because it creates a path (a set of directions) to their house. You, the driver, are both the **Mid Level Controller** and the **Low Level Controller.** While driving, you control the speed and direction of the car to follow the path created by Google Maps; this is **Mid Level Control.** To drive a certain speed along the road, you control the gas; this is **Low Level Control.**
-
-The main idea is that commands cascade from the top-down. For example, the high level controller provides a path to the mid level controller. Then the mid level controller provides a velocity to the low level controller to follow the path. Then the low level controller acts to actually move the robot.
-
-In this topic, we will be covering **Low Level Control** and **Mid Level Control**.
-
-<hr>
+If at any point, you are not vibing with the way information is taught in this section, feel free to refer to this fantastic video: https://www.youtube.com/watch?v=wkfEZmsQqiA. 
 
 </details>
-
 <details>
-<summary><strong>5.1 Low Level Control</strong></summary>
-
+<summary><strong>5.1 PID Controller</strong></summary>
 <hr>
 
-#### 5.1.a Throttle Controller
+All code will be in `stinger_controller/velocity_controller.py`. Tests for this section can be run with:
 
-Take a look at `stinger_controller/throttle_controller.py`. This node handles converting command accelerations to thruster speeds.The logic in this code is quite advanced, so feel free to just briefly skim over this node.
+`ros2 launch autograder test_5_1.launch.py`
 
-#### 5.1.b Velocity Controller
+A PID controller has 3 parts: a (P)roportional term, a (I)ntegral term, and a (D)errivative term. Each of these terms has a specific use case. The general PID controller can be formulated as:
 
-Take a look at `stinger_controller/velocity_controller.py`. This node will take in a command velocity and publish an acceleration. This controller is a PID controller. 
+<img src="assets/pid_diagram.png" width="800"/>
 
-#### 5.1.c PID Control System
+Here, the terms `K_p`, `K_i`, `K_d` are the "gains" to the controller. These are just numbers that influence the affect of each term. Usually, with PID controllers, they need to be "tuned", which means adjusting these values. We will come back to these values in a later section.
 
-<img src="assets/PIDBlockDiagram.png" width="800"/>
-
-PID is a control algorithm that is a closed loop system (uses feedback) that relies on the amount of error in the system. Lets use our car example as an analogy.
-
-**Error:** Say you want to go 60 mph and you are currently doing 40 mph. In this scenario, the difference between the desired speed and our current speed is our error. This is the core component behind a PID controller, which consists of three main components—Proportional, Integral, and Derivative—each with an associated gain. 
-
-**Proportional:**  In one case, say we are going 20 mph slower than we want to. In another case, say we are going only 5 mph slower than we want to. Here, the Proportional term would tell us that the magnitude of our action should be proportional to the magnitude of our error. In other words, in the scenario where we are 20 mph slower, we should really step on the gas. In the other case where we are only 5 mph slower, we should just barely step on the gas to accelerate. 
-
-**Derivative:** Say for whatever reason, you love to only floor the gas pedal or slam on the breaks. If you were trying to maintain a speed this way, you'd notice that you would ocsillate between going too fast and going too slow. This is where the Derivative term would help. The Derivative term predicts future error based on its rate of change. It acts as a damping force, responding to how quickly the error is changing, which helps to reduce overshoot and improve system stability.
-
-**Integral:** Say you're in your car on the highway. You know that in order to maintain your cruising speed, you need to be constantly pressing the gas pedal. If you didn't, your car would slow down. This is where the Integral would come in. The Integral term accounts for steady-state errors, which is measured by accumulating past errors over time. In other words, if there's a persistent small error, the integral term gradually builds up and corrects it, helping to eliminate steady-state error.
-
-Each of these terms has an associated "gain." This is a constant coefficient that controls the influence of each term. With a PID controller, you must adjust these constants to get a controller that responds well to the error at hand. This is often referred to as "tuning the controller." 
-
-Table below summarizes effects of increasing a parameter independently
-<img src="assets/PIDBlockDiagram.png" width="800"/>
-
+#### 5.1.a Velocity Controller Setup
 <hr>
+
+Create a subscription to the topic `cmd_vel` and use the callback function `cmd_vel_callback`. We intentionally are not telling you the message type, see if you can figure it out!
+
+Create a subscription to the topic `/odometry/filtered` and use the callback `odometry_callback`.
+
+Create a publisher to `/cmd_wrench`. **Hint:** Looking at `throttle_controller.py` may be useful for this.
+
+#### 5.1.b Error Calculation
+<hr>
+
+In the overview, we provided a quick example of the general idea of a PID controller. We made one very important calculation: the error. This error is what we are "feeding back" into the controller and lets the controller how much to adjust to get to our desired velocity. This calculation will make more sense in later sections when we introduce the proportional, integral and derivative terms.
+
+For this question, calculate the error of the robot's velocity in the surge direction. For proper sign convention, do `error = commanded - current`.
+
+#### 5.1.c Proportional Calculation
+<hr>
+
+The idea of the proportional term is "the greater the error the more I correct, the smaller the error the less I correct." For example, imagine a situtation where you are driving a car on the highway and your sole goal is to stay in your lane. In this scenario, the "error" would be the distance your car is from the center of your lane. You will have high error if you are really out of your lane, and you will have low error if you are roughly staying in your lane.
+
+In this scenario, lets say your only control is your steering. When your error is large (when you are really far off your lane), you need to turn your car a lot to get back into your lane. When your error is small (when you are roughly in your lane), you will only need to smake small adjustments to center your car in your lane.
+
+This is the overall idea behind the Proportional term. The higher your error, the more drastic your control needs to change. The smaller your error, the less your control needs to change.
+
+For this question, calculate the proportional term. It should look something like this: `P = K_p * error`.
+
+#### 5.1.d Integral Calculation
+<hr>
+
+The integral term says: “If I’ve been off for a while, I should keep nudging harder until the long-term error is gone.” Back to the highway example, imagine your car loves to drift to the right even when you try to steer straight. Over time, you'll realize that your car tends to drift to the right, so from then on you remember to always turn slightly to the left to stay centered. This is the idea behind the integral term for the controller.
+
+The integral term will add up accumulated error from the past and counteract it.
+
+For this question, calculate the integral term like:
+
+```
+I_total += e_k * Δt
+I = K_i * I_total
+```
+
+#### 5.1.e Derivative Calculation
+<hr>
+
+The derivative term is in charge of smoothing your control output. In the highway example, imagine you're going 100mph. If you drastically steer to the left to center yourself in the lane, you'll lose control of the car quickly and swerve (and potentially crash).
+
+The derivative term is in charge of looking at the rate of change of the error, essentially "looking into the future" (through the derivative). If the rate of change of the error is decreasing, we can infer that we are approaching our desired control. Because of this, we should dampen our control output to prevent us from overshooting. 
+
+For this question, calculate the integral term like:
+
+```
+D = K_d * (change in error) / dt
+```
+
+#### 5.1.f Yaw Control
+<hr>
+
+Now apply the same concepts from `5.1.b - 5.1.e` to calculate the correct yaw control output.
+
+#### 5.1.g Controller Tuning
+<hr>
+
+Each term has an associated gain (constant value) that affects the influence of each term. For example, if you want a system to react super quickly, you may want a high proportional gain. If you instead prefer system stability, you might want to have a higher derivative term. Tuning/changing these values are an important step to make your system react the way you want it to. This is often called "tuning" the controller.
+
+For this section, override the default gain values and tune the controller. The autograder will pass if for 350 iterations, your controller on average can control the robot's velocity to be within the desired velocity by `0.075 m/s`.
+
+Tips on tuning values:
+
+1. Increase `K_p` first until the control starts oscillating
+2. Increase `K_d` until the control stabilizes
+3. Repeat steps 1-2
+4. Increase `K_i` if needed 
+
+**Tip:** Use plot juggler! Very useful to see whats happening in the back.
 
 </details>
 
