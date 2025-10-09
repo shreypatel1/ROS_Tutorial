@@ -130,24 +130,24 @@ class TutorialTopic_4_3(Node):
         ang_vel = self.rotate_vector(rot_matrix, msg_base_link.angular_velocity)
         lin_acc = self.rotate_vector(rot_matrix, msg_base_link.linear_acceleration)
 
-        # Subtract gravity in world frame
-        g = 9.80665
-        lin_acc[2] -= g
+        # # Subtract gravity in world frame
+        # g = 9.80665
+        # lin_acc[2] -= g
 
-        # Bias calibration on startup (average first 50 samples)
-        if not hasattr(self, "accel_bias"):
-            if not hasattr(self, "accel_bias_accum"):
-                self.accel_bias_accum = np.zeros(3)
-                self.accel_bias_count = 0
-            if self.accel_bias_count < 50:
-                self.accel_bias_accum += lin_acc
-                self.accel_bias_count += 1
-                if self.accel_bias_count == 50:
-                    self.accel_bias = self.accel_bias_accum / self.accel_bias_count
-                    self.get_logger().info(f"Accel bias estimated: {self.accel_bias}")
-                return
-        else:
-            lin_acc -= self.accel_bias
+        # # Bias calibration on startup (average first 50 samples)
+        # if not hasattr(self, "accel_bias"):
+        #     if not hasattr(self, "accel_bias_accum"):
+        #         self.accel_bias_accum = np.zeros(3)
+        #         self.accel_bias_count = 0
+        #     if self.accel_bias_count < 50:
+        #         self.accel_bias_accum += lin_acc
+        #         self.accel_bias_count += 1
+        #         if self.accel_bias_count == 50:
+        #             self.accel_bias = self.accel_bias_accum / self.accel_bias_count
+        #             self.get_logger().info(f"Accel bias estimated: {self.accel_bias}")
+        #         return
+        # else:
+        #     lin_acc -= self.accel_bias
 
         ### END STUDENT CODE
 
@@ -190,11 +190,11 @@ class TutorialTopic_4_3(Node):
         odom_msg.pose.pose.orientation.z = transformed_orientation[2]
         odom_msg.pose.pose.orientation.w = transformed_orientation[3]
 
-        self.get_logger().info(
-            f"IMU frame: {msg.header.frame_id}, orientation: "
-            f"[{msg.orientation.x:.3f}, {msg.orientation.y:.3f}, {msg.orientation.z:.3f}, {msg.orientation.w:.3f}], "
-            f"linear_acc: [{msg.linear_acceleration.x:.3f}, {msg.linear_acceleration.y:.3f}, {msg.linear_acceleration.z:.3f}]"
-        )
+        # self.get_logger().info(
+        #     f"IMU frame: {msg.header.frame_id}, orientation: "
+        #     f"[{msg.orientation.x:.3f}, {msg.orientation.y:.3f}, {msg.orientation.z:.3f}, {msg.orientation.w:.3f}], "
+        #     f"linear_acc: [{msg.linear_acceleration.x:.3f}, {msg.linear_acceleration.y:.3f}, {msg.linear_acceleration.z:.3f}]"
+        # )
 
 
         self.odom_pub.publish(odom_msg)
