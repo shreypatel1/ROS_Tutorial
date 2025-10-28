@@ -126,6 +126,7 @@ class TutorialTopic_4_3(Node):
             tf_transformations.quaternion_multiply(q_tf, base_q_np),
             tf_transformations.quaternion_conjugate(q_tf)
         )
+        rotation_matrix = tf_transformations.quaternion_matrix(base_q_np)[:3, :3]
 
         ang_vel = self.rotate_vector(rot_matrix, msg_base_link.angular_velocity)
         lin_acc = self.rotate_vector(rot_matrix, msg_base_link.linear_acceleration)
