@@ -1,5 +1,5 @@
 # Robotics Coding Tutorial
-In this repo, you will learn the basics of ROS2 and robotics fundamentals. The goal of this tutorial is start with the basics and slowly progress to creating your own full autonomy stack for the stinger tugs. Throughout this tutorial, you will fill out code blocks, answer questions, and write code. After completing each section, there will be a provided autograder that will verify your work. Only by passing all the required autograder tests should you move onto the next section. If you are having a hard time passing some tests, please reach out! We are more than happy to help.
+In this repo, you will learn the basics of ROS2 and robotics fundamentals. The goal of this tutorial is start with the basics and slowly progress to creating your own full autonomy stack for the stinger tugs. Throughout this tutorial, you will fill out code blocks, answer questions, and write code. After completing each section, there will be a provided autograder that will verify your work. Only by passing all the required autograder tests should you move onto the next section. If you are having a hard time passing some tests, please reach out! We are more than happy to help. As a side note, some of the instructions will be intentionally ambiguous. This is meant to mimic working on the bigger projects where team leads won't be able to specify everything for you. Try your best to figure it out on your own! But, if you're really stuck feel free to message us.
 
 ## Prerequisites
 - **Some base knowledge of coding/python** If you are not yet familiar with python, you can still attempt to go through this tutorial but it is highly recommended that you learn python first. Some great tutorials are:
@@ -548,7 +548,7 @@ The linear acceleration field of the IMU is composed of a 3D vector, representin
 In seperate terminals, run the following:
 
 ```
-ros2 launch stinger_bringup vehicile_sim.launch.py
+ros2 launch stinger_bringup vehicle_sim.launch.py
 ros2 topic echo /stinger/imu/data --field linear_acceleration --no-arr --once
 ```
 
@@ -577,7 +577,7 @@ In `question_4_3.py`, look at the `transfrom_imu(self, msg: Imu)` function. It i
 In seperate terminals, run the following:
 
 ```
-ros2 launch stinger_bringup vehicile_sim.launch.py
+ros2 launch stinger_bringup vehicle_sim.launch.py
 ros2 run student_code question_4_3
 ros2 topic echo /debug --field linear_acceleration --no-arr --once
 ```
@@ -1082,8 +1082,9 @@ This section goes through configuring the OS by flashing the microSD card with U
   1. Follow the instructions from the following link to flash Ubuntu 22.04 onto the microSD card: [https://ubuntu.com/download/raspberry-pi](url). Follow the `Desktop` tutorial. You need your laptop to do this.
   2. Insert the flashed microSD card into the Raspberry Pi and connect the Pi to a monitor, keyboard, and mouse. Power the Pi, and the monitor will turn on automatically. 
   3. Set the username to `tugxx`, with `xx` be you team number. If you are team 5, it will be `tug05`. Please set the password to `boats0519`.
-  4. To give the tug a static IP address, we need to be talking to a travel router that talks to GTother (for example). We have router GLiNet AX3000 in lab. So basically, `GTother` (if you needs internet) -> `Router` -> both your laptop and tug is connected to `Router` -> can `ssh`
-  5. The router is set up for you already. Connect to wifi on your laptop: `GL-MT3000-0a9`  OR  `GL-MT3000-0a9-5G`
+  4. To give the tug a static IP address, we need to be talking to a travel router that talks to GTother (for example). We have router GLiNet AX3000 in lab. So basically, `GTother` (if you needs internet) -> `Router` -> both your laptop and tug is connected to `Rourouter ter` -> can `ssh`
+  - This means connect your Pi via ethernet to the GLiNet router.
+  6. The router is set up for you already. Connect to wifi on your laptop: `GL-MT3000-0a9`  OR  `GL-MT3000-0a9-5G`
   - Password: `boats0519`
   6. Admin password for logging in from the web (DNS should be the correct IP): `@boats0519`
   7. If steps 4-6 are too much for you right now - just connect to gtother following this website: [https://auth.lawn.gatech.edu/key/](url)
@@ -1102,6 +1103,36 @@ This section goes through configuring the OS by flashing the microSD card with U
   2. After logging into the Pi, follow the link to install ROS2 Humble: [https://roboticsbackend.com/install-ros2-on-raspberry-pi/](url)
   3. You should have installed `colcon` if you followed till the end of the tutorial. One more thing: `sudo apt install build-essential`
 
+
+#### 8.1 c Installing Wifi Adapter
+1. Installing the adapter
+- Requirements: Pi is powered off; You have USB->SMA adapter; SMA-SMA cable and SMA wifi antenna
+- Plug in all components with the Pi powered off
+2. Power your Pi on
+3. Connect your Pi to the GLinet router via ethernet and your laptop connected via wifi to 'GL-MT3000-0a9' or 'GL-MT3000-0a9-5G'
+4. ssh into your Pi
+5. Enter the following into the terminal:
+  ```
+    cd ~
+    git clone https://github.com/morrownr/8821cu-20210916.git
+    cd 8821cu-20210916
+    sudo ./install-driver.sh
+    sudo reboot
+    iw dev
+  ```
+- You should see both phy#1 and phy#0
+  ```
+   sudo nmcli dev wifi connect "GL-MT3000-0a9" password "boats0519" ifname wlxe84e06fa5343
+  
+  ```
+6. To autoconnect to adpater on boot
+    ```
+
+     sudo nmcli connection add type wifi ifname wlxe84e06fa5343 con-name glinet-ap ssid "GL-MT3000-0a9"
+     sudo nmcli connection modify glinet-ap wifi-sec.key-mgmt wpa-psk wifi-sec.psk "boats0519"
+     sudo nmcli connection up glinet-ap
+
+    
 <hr>
 
 </details>
@@ -1110,6 +1141,7 @@ This section goes through configuring the OS by flashing the microSD card with U
 <summary><strong>8.2 Custom Setup in Pi</strong></summary>
 
 <hr>
+```
 
 #### 8.2.a git CLI
   You are on your laptop that is ssh-ed into the Stinger Raspberry Pi.
