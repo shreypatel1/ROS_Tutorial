@@ -94,10 +94,6 @@ class TutorialTopic_4_3(Node):
             self.min_iterations_startup += 1
             return
 
-        if self.prev_time is None:
-            self.prev_time = self.get_clock().now()
-            return
-
         msg_base_link = self.transfrom_imu(msg)
         if msg_base_link is None:
             self.get_logger().warn("Failed to get transform, skipping")
@@ -106,26 +102,12 @@ class TutorialTopic_4_3(Node):
 
         # TODO: 4.3.a Odom Frame IMU
         ### STUDENT CODE HERE
-        # To correctly localize ourselves, we must convert our base_link measurements into the odom frame. With an IMU, this involves using the IMU's orientation to rotate the linear_acceleration and angular_velocity. Look at question_4_3.py, complete 4.3.a Odom Frame IMU by rotating the linear_acceleration and angular_velocity from msg_base_link with msg_base_link.orientation.
-
-        transform = None
-        try:
-            transform = self.tf_buffer.lookup_transform(
-                target_frame='odom',
-                source_frame=msg_base_link.header.frame_id,
-                time=rclpy.time.Time(),
-                timeout=Duration(seconds=1.0)
-            )
-        except:
-            self.get_logger().warn("Failed to get transform, skipping")
-            return
-
-        q = transform.transform.rotation
-        q_tf = [q.x, q.y, q.z, q.w]
-        rot_matrix = tf_transformations.quaternion_matrix(q_tf)[:3, :3]
+        # Rotate the base_link measurements into the odom frame using the IMU's
+        # own orientation, which is the rotation from base_link to odom.
+        q = msg_base_link.orientation
+        rot_matrix = tf_transformations.quaternion_matrix([q.x, q.y, q.z, q.w])[:3, :3]
 
         linear_acc_odom = self.rotate_vector(rot_matrix, msg_base_link.linear_acceleration)
-        angular_vel_odom = self.rotate_vector(rot_matrix, msg_base_link.angular_velocity)
         ### END STUDENT CODE
 
 
@@ -133,16 +115,34 @@ class TutorialTopic_4_3(Node):
         odom_msg.header.stamp = msg.header.stamp
         # TODO: 4.3.b IMU Dead Reckoning
         ### STUDENT CODE HERE
-        self.velocity += linear_acc_odom[:2] * (self.get_clock().now() - self.prev_time).nanoseconds * 1e-9
-        self.position += self.velocity * (self.get_clock().now() - self.prev_time).nanoseconds * 1e-9
+        # Integrate on the sensor stamp. This node runs on wall time but the sim
+        # publishes /clock, so get_clock() would scale dt by the real time factor.
+        now = rclpy.time.Time.from_msg(msg.header.stamp)
+        if self.prev_time is None:
+            self.prev_time = now
+            return
+        dt = (now - self.prev_time).nanoseconds * 1e-9
+        self.prev_time = now
+        if dt <= 0.0:
+            return
+
+        # In the odom frame gravity is purely vertical, so taking x and y drops it
+        self.velocity += linear_acc_odom[:2] * dt
+        self.position += self.velocity * dt
+
+        # twist is expressed in child_frame_id, so rotate the velocity back to base_link
+        vel_base_link = rot_matrix.T @ np.array([self.velocity[0], self.velocity[1], 0.0])
+
+        odom_msg.header.frame_id = 'odom'
+        odom_msg.child_frame_id = 'base_link'
         odom_msg.pose.pose.position.x = self.position[0]
         odom_msg.pose.pose.position.y = self.position[1]
-        odom_msg.twist.twist.linear.x = self.velocity[0]
-        odom_msg.twist.twist.linear.y = self.velocity[1]
-        odom_msg.twist.twist.angular.z = angular_vel_odom[2]
         odom_msg.pose.pose.position.z = 0.0
-
-        self.prev_time = self.get_clock().now()
+        odom_msg.pose.pose.orientation = msg_base_link.orientation
+        odom_msg.twist.twist.linear.x = vel_base_link[0]
+        odom_msg.twist.twist.linear.y = vel_base_link[1]
+        odom_msg.twist.twist.linear.z = 0.0
+        odom_msg.twist.twist.angular = msg_base_link.angular_velocity
 
         self.odom_pub.publish(odom_msg)
         ### END STUDENT CODE
