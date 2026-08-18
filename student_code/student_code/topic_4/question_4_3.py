@@ -106,7 +106,26 @@ class TutorialTopic_4_3(Node):
 
         # TODO: 4.3.a Odom Frame IMU
         ### STUDENT CODE HERE
+        # To correctly localize ourselves, we must convert our base_link measurements into the odom frame. With an IMU, this involves using the IMU's orientation to rotate the linear_acceleration and angular_velocity. Look at question_4_3.py, complete 4.3.a Odom Frame IMU by rotating the linear_acceleration and angular_velocity from msg_base_link with msg_base_link.orientation.
 
+        transform = None
+        try:
+            transform = self.tf_buffer.lookup_transform(
+                target_frame='odom',
+                source_frame=msg_base_link.header.frame_id,
+                time=rclpy.time.Time(),
+                timeout=Duration(seconds=1.0)
+            )
+        except:
+            self.get_logger().warn("Failed to get transform, skipping")
+            return
+
+        q = transform.transform.rotation
+        q_tf = [q.x, q.y, q.z, q.w]
+        rot_matrix = tf_transformations.quaternion_matrix(q_tf)[:3, :3]
+
+        linear_acc_odom = self.rotate_vector(rot_matrix, msg_base_link.linear_acceleration)
+        angular_vel_odom = self.rotate_vector(rot_matrix, msg_base_link.angular_velocity)
         ### END STUDENT CODE
 
 
@@ -114,7 +133,18 @@ class TutorialTopic_4_3(Node):
         odom_msg.header.stamp = msg.header.stamp
         # TODO: 4.3.b IMU Dead Reckoning
         ### STUDENT CODE HERE
+        self.velocity += linear_acc_odom[:2] * (self.get_clock().now() - self.prev_time).nanoseconds * 1e-9
+        self.position += self.velocity * (self.get_clock().now() - self.prev_time).nanoseconds * 1e-9
+        odom_msg.pose.pose.position.x = self.position[0]
+        odom_msg.pose.pose.position.y = self.position[1]
+        odom_msg.twist.twist.linear.x = self.velocity[0]
+        odom_msg.twist.twist.linear.y = self.velocity[1]
+        odom_msg.twist.twist.angular.z = angular_vel_odom[2]
+        odom_msg.pose.pose.position.z = 0.0
 
+        self.prev_time = self.get_clock().now()
+
+        self.odom_pub.publish(odom_msg)
         ### END STUDENT CODE
 
 def main(args=None):
